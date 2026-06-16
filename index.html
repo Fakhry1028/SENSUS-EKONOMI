@@ -783,74 +783,74 @@
             <section class="space-y-6">
                 <h2 class="text-xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 inline-block">DOKUMENTASI</h2>
                 
-                <div class="bg-gray-50 p-6 rounded-xl border border-dashed border-gray-300 text-center space-y-6">
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-700 mb-1">19. Foto Rumah</h3>
-                        <p class="text-sm text-gray-500">Unggah 2 buah foto yang mencerminkan kualitas bangunan.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Upload Box 1 -->
-                        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm relative hover:border-orange-400 transition cursor-pointer" onclick="document.getElementById('uploadDepan').click()">
-                            <input type="file" id="uploadDepan" class="hidden" accept="image/*">
-                            <div class="flex flex-col items-center justify-center space-y-3">
-                                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <div>
-                                    <span class="block font-semibold text-gray-700">Foto Tampak Depan</span>
-                                    <span class="text-xs text-red-500">(Harus mencakup atap & dinding)</span>
-                                </div>
-                                <button type="button" class="mt-2 bg-orange-100 text-orange-600 font-semibold py-1 px-4 rounded hover:bg-orange-200">Pilih Foto</button>
-                            </div>
-                        </div>
-
-                        <!-- Upload Box 2 -->
-                        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm relative hover:border-orange-400 transition cursor-pointer" onclick="document.getElementById('uploadDalam').click()">
-                            <input type="file" id="uploadDalam" class="hidden" accept="image/*">
-                            <div class="flex flex-col items-center justify-center space-y-3">
-                                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                                <div>
-                                    <span class="block font-semibold text-gray-700">Foto Ruang Tamu</span>
-                                    <span class="text-xs text-red-500">(Harus mencakup dinding & lantai)</span>
-                                </div>
-                                <button type="button" class="mt-2 bg-orange-100 text-orange-600 font-semibold py-1 px-4 rounded hover:bg-orange-200">Pilih Foto</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </form>
-    </div>
-
-    <!-- Modal Sukses/Submit -->
-    <div id="submitModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center transform scale-100 transition-transform">
-            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
-                <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <!-- Modal Loading Kamera / Scanner -->
+    <div id="cameraModal" class="fixed inset-0 bg-black bg-opacity-90 hidden flex flex-col items-center justify-center z-50 p-4">
+        <div class="w-full max-w-md relative flex flex-col items-center">
+            
+            <!-- Header Modal Scanner -->
+            <div class="w-full flex justify-between items-center text-white mb-4">
+                <h3 class="text-lg font-bold">Pindai KTP / KK</h3>
+                <button onclick="closeScanner()" class="bg-gray-800 hover:bg-gray-700 p-2 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Data Terkirim!</h3>
-            <p class="text-gray-500 mb-6">Data Sensus Ekonomi 2026 berhasil direkam ke dalam database.</p>
-            <button onclick="closeModal('submitModal')" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition duration-200 shadow-md">
-                Selesai & Lanjut Data Baru
-            </button>
+
+            <!-- Area Video Kamera -->
+            <div class="relative w-full aspect-[4/3] bg-black rounded-xl overflow-hidden border-2 border-gray-700 shadow-2xl">
+                <!-- Elemen Video -->
+                <video id="videoElement" class="absolute top-0 left-0 w-full h-full object-cover" autoplay playsinline></video>
+                
+                <!-- Bingkai Scanner (Overlay) -->
+                <div id="scannerOverlay" class="absolute inset-0 pointer-events-none">
+                    <div class="absolute inset-0 border-[40px] border-black border-opacity-50"></div>
+                    <!-- Sudut-sudut bingkai -->
+                    <div class="absolute top-[40px] left-[40px] w-12 h-12 border-t-4 border-l-4 border-orange-500 rounded-tl-lg"></div>
+                    <div class="absolute top-[40px] right-[40px] w-12 h-12 border-t-4 border-r-4 border-orange-500 rounded-tr-lg"></div>
+                    <div class="absolute bottom-[40px] left-[40px] w-12 h-12 border-b-4 border-l-4 border-orange-500 rounded-bl-lg"></div>
+                    <div class="absolute bottom-[40px] right-[40px] w-12 h-12 border-b-4 border-r-4 border-orange-500 rounded-br-lg"></div>
+                    
+                    <!-- Garis Pindai Animasi -->
+                    <div class="absolute top-[40px] left-[40px] right-[40px] h-1 bg-orange-500 bg-opacity-70 shadow-[0_0_8px_2px_rgba(249,115,22,0.5)] animate-[scanLine_2.5s_ease-in-out_infinite]"></div>
+                    
+                    <p class="absolute bottom-[50px] w-full text-center text-white text-sm font-medium drop-shadow-md px-12">
+                        Posisikan KTP/KK di dalam bingkai orange
+                    </p>
+                </div>
+
+                <!-- Overlay Loading/Scanning (muncul setelah jepret) -->
+                <div id="scanningProcessing" class="absolute inset-0 bg-black bg-opacity-80 hidden flex-col items-center justify-center">
+                    <div class="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p class="text-white font-medium" id="scanProgressText">Mengekstrak Data OCR...</p>
+                </div>
+                
+                <!-- Canvas tersembunyi untuk menangkap frame -->
+                <canvas id="canvasElement" class="hidden"></canvas>
+            </div>
+
+            <!-- Tombol Aksi Kamera -->
+            <div class="mt-8 flex justify-center space-x-6">
+                <button onclick="switchCamera()" class="bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-full transition shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </button>
+                <button onclick="takeSnapshot()" id="btnCapture" class="bg-orange-500 hover:bg-orange-600 text-white p-5 rounded-full border-4 border-orange-300 transition shadow-xl">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </button>
+            </div>
+            <p class="text-gray-400 text-xs mt-4 text-center">Data diproses secara lokal dan tidak disimpan di server saat proses OCR.</p>
         </div>
     </div>
 
-    <!-- Modal Loading Kamera -->
-    <div id="cameraModal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full text-center">
-            <div class="animate-pulse mb-4">
-                <div class="h-32 w-full bg-gray-200 rounded flex items-center justify-center relative overflow-hidden border-2 border-dashed border-orange-400">
-                    <span class="text-gray-400 text-sm">Membuka Kamera...</span>
-                    <div class="absolute top-0 left-0 w-full h-1 bg-orange-500 animate-[bounce_2s_infinite]"></div>
-                </div>
-            </div>
-            <h3 class="text-lg font-bold text-gray-900">Memindai Dokumen</h3>
-            <p class="text-sm text-gray-500 mt-2" id="scanProgressText">Mengekstrak NIK dan Nama...</p>
-        </div>
-    </div>
+    <style>
+        /* Animasi garis pindai naik turun */
+        @keyframes scanLine {
+            0% { top: 40px; }
+            50% { top: calc(100% - 44px); }
+            100% { top: 40px; }
+        }
+    </style>
 
     <script>
+        // --- EXISTING SCRIPT ---
         // Fungsi memunculkan input manual jika opsi Ya/Tidak dipilih
         function toggleManualInput(elementId, show) {
             const el = document.getElementById(elementId);
@@ -863,46 +863,105 @@
             }
         }
 
-        // Fungsi Kalkulasi Umur Otomatis
-        function hitungUmur() {
-            const tahunLahir = document.getElementById('inputTahun').value;
-            const output = document.getElementById('outputUmur');
-            const tahunSekarang = 2026; // Sesuai Sensus Ekonomi 2026
+        // --- NEW CAMERA/SCANNER SCRIPT ---
+        let currentStream = null;
+        let useFrontCamera = false;
+        const videoElement = document.getElementById('videoElement');
 
-            if(tahunLahir && tahunLahir.length === 4) {
-                const umur = tahunSekarang - parseInt(tahunLahir);
-                output.value = umur >= 0 ? umur : 0;
-            } else {
-                output.value = '';
+        // Fungsi Simulasi Scan Kamera/OCR (Diperbarui untuk buka kamera asli)
+        async function simulateCameraScan() {
+            const modal = document.getElementById('cameraModal');
+            modal.classList.remove('hidden');
+            
+            // Reset state
+            document.getElementById('scannerOverlay').classList.remove('hidden');
+            document.getElementById('scanningProcessing').classList.add('hidden');
+            document.getElementById('btnCapture').disabled = false;
+            document.getElementById('btnCapture').classList.remove('opacity-50');
+
+            await startCamera();
+        }
+
+        // Mulai akses kamera
+        async function startCamera() {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+            }
+
+            const constraints = {
+                video: {
+                    facingMode: useFrontCamera ? "user" : "environment",
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                }
+            };
+
+            try {
+                currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+                videoElement.srcObject = currentStream;
+            } catch (err) {
+                console.error("Error accessing camera: ", err);
+                alert("Tidak dapat mengakses kamera. Pastikan Anda memberikan izin akses kamera ke browser ini.");
+                closeScanner();
             }
         }
 
-        // Fungsi Simulasi Scan Kamera/OCR
-        function simulateCameraScan() {
-            const modal = document.getElementById('cameraModal');
+        // Ganti kamera depan/belakang
+        function switchCamera() {
+            useFrontCamera = !useFrontCamera;
+            startCamera();
+        }
+
+        // Tutup scanner dan matikan kamera
+        function closeScanner() {
+            document.getElementById('cameraModal').classList.add('hidden');
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                currentStream = null;
+            }
+        }
+
+        // Ambil gambar dan simulasikan OCR
+        function takeSnapshot() {
+            const btnCapture = document.getElementById('btnCapture');
+            const overlay = document.getElementById('scannerOverlay');
+            const processing = document.getElementById('scanningProcessing');
             const progressText = document.getElementById('scanProgressText');
             
-            modal.classList.remove('hidden');
-            progressText.innerText = "Membuka Kamera...";
+            // Nonaktifkan tombol
+            btnCapture.disabled = true;
+            btnCapture.classList.add('opacity-50');
+            
+            // Sembunyikan bingkai, tampilkan loading
+            overlay.classList.add('hidden');
+            processing.classList.remove('hidden');
+            
+            // (Opsional) jika ingin menangkap frame asli ke canvas:
+            // const canvas = document.getElementById('canvasElement');
+            // canvas.width = videoElement.videoWidth;
+            // canvas.height = videoElement.videoHeight;
+            // canvas.getContext('2d').drawImage(videoElement, 0, 0);
+            // const imageDataURL = canvas.toDataURL('image/jpeg');
 
-            // Simulasi proses delay membaca dokumen
-            setTimeout(() => { progressText.innerText = "Mendeteksi Kartu Keluarga..."; }, 800);
-            setTimeout(() => { progressText.innerText = "Mengekstrak NIK dan Nama..."; }, 1800);
+            progressText.innerText = "Mendeteksi Dokumen...";
+
+            // Simulasi proses OCR bertahap
+            setTimeout(() => { progressText.innerText = "Membaca NIK & Nama..."; }, 1000);
             
             setTimeout(() => {
-                // Auto-fill data mock
+                // Auto-fill data mock (seolah-olah hasil OCR)
                 document.getElementById('ocrKK').value = "3306123456780001";
                 document.getElementById('ocrNIK').value = "3306112233445566";
                 document.getElementById('ocrNama').value = "BUDI SANTOSO";
                 
-                // Ubah state tombol
+                // Ubah state tombol utama di luar modal
                 const btn = document.getElementById('btnScan');
                 btn.classList.replace('bg-blue-600', 'bg-green-600');
                 btn.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
                 document.getElementById('scanText').innerText = "Data Berhasil Dipindai";
                 
-                modal.classList.add('hidden');
-            }, 3000);
+                closeScanner();
+            }, 2500);
         }
 
         // Modals Management
