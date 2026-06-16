@@ -471,7 +471,7 @@
 
     </main>
 
-    <!-- MODAL KAMERA OCR (SAMA SEPERTI VERSI SEBELUMNYA YG SUDAH BERHASIL) -->
+    <!-- MODAL KAMERA OCR -->
     <div id="cameraModal" class="fixed inset-0 bg-black bg-opacity-95 hidden flex-col items-center justify-center z-50 p-4">
         <div class="w-full max-w-md relative flex flex-col items-center">
             
@@ -499,9 +499,11 @@
                     </p>
                 </div>
 
+                <!-- OVERLAY LOADING YANG DIPERBAIKI -->
                 <div id="scanningProcessing" class="absolute inset-0 bg-black bg-opacity-80 hidden flex-col items-center justify-center">
                     <div class="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                    <p class="text-white text-sm font-medium text-center px-4" id="scanProgressText">Memulai AI Scanner...</p>
+                    <p class="text-white text-sm font-medium text-center px-4 mb-4" id="scanProgressText">Memulai AI Scanner...</p>
+                    <button onclick="cancelScan()" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-medium text-sm rounded-lg shadow transition">Batalkan Proses</button>
                 </div>
                 
                 <canvas id="canvasElement" class="hidden"></canvas>
@@ -522,7 +524,8 @@
     <!-- MODAL PESAN -->
     <div id="messageModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-[60] p-4">
         <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl text-center">
-            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500">
+            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500" id="messageIcon">
+                <!-- Ikon default (Info) -->
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
             <h3 id="messageTitle" class="text-lg font-bold text-gray-800 mb-2">Informasi</h3>
@@ -547,6 +550,7 @@
         // Variabel Kamera
         let currentStream = null;
         let useFrontCamera = false;
+        let isScanning = false;
         const videoElement = document.getElementById('videoElement');
 
         async function openScanner() {
@@ -558,6 +562,7 @@
             document.getElementById('scanningProcessing').classList.add('hidden');
             document.getElementById('btnCapture').disabled = false;
             document.getElementById('btnCapture').classList.remove('opacity-50');
+            isScanning = false;
 
             await startCamera();
         }
@@ -598,9 +603,25 @@
             }
         }
 
+        function cancelScan() {
+            isScanning = false;
+            closeScanner();
+            showMessage("Dibatalkan", "Pemindaian OCR telah dibatalkan oleh Anda.");
+        }
+
         function showMessage(title, text) {
             document.getElementById('messageTitle').innerText = title;
             document.getElementById('messageText').innerText = text;
+            
+            const iconContainer = document.getElementById('messageIcon');
+            if(title.includes("Gagal") || title.includes("Dibatalkan") || title.includes("Sulit")) {
+                iconContainer.className = "w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500";
+                iconContainer.innerHTML = '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            } else {
+                iconContainer.className = "w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500";
+                iconContainer.innerHTML = '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            }
+
             document.getElementById('messageModal').classList.remove('hidden');
         }
 
@@ -609,6 +630,9 @@
         }
 
         async function takeSnapshot() {
+            if(isScanning) return;
+            isScanning = true;
+
             const btnCapture = document.getElementById('btnCapture');
             const overlay = document.getElementById('scannerOverlay');
             const processing = document.getElementById('scanningProcessing');
@@ -621,28 +645,60 @@
             processing.classList.remove('hidden');
             processing.style.display = 'flex';
             
-            const canvas = document.getElementById('canvasElement');
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-            
-            const imageDataURL = canvas.toDataURL('image/jpeg', 0.9);
+            // OPTIMASI: Kecilkan resolusi gambar agar browser tidak hang (maks 1000px)
+            const MAX_DIMENSION = 1000;
+            let width = videoElement.videoWidth;
+            let height = videoElement.videoHeight;
 
-            progressText.innerText = "Mempersiapkan AI (OCR)...";
+            if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+                const ratio = Math.min(MAX_DIMENSION / width, MAX_DIMENSION / height);
+                width = width * ratio;
+                height = height * ratio;
+            }
+
+            const canvas = document.getElementById('canvasElement');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(videoElement, 0, 0, width, height);
+            
+            // Kompresi kualitas gambar ke 80%
+            const imageDataURL = canvas.toDataURL('image/jpeg', 0.8);
+
+            progressText.innerText = "Memeriksa Mesin AI...";
 
             try {
-                const result = await Tesseract.recognize(
+                // Membuat Promise OCR Tesseract
+                const ocrPromise = Tesseract.recognize(
                     imageDataURL,
                     'ind',
                     { 
                         logger: m => {
+                            if(!isScanning) return; // Stop log jika dibatalkan
+                            
+                            // Menampilkan detail proses kepada pengguna agar tidak bingung
                             if(m.status === 'recognizing text') {
                                 progressText.innerText = `Membaca Teks: ${Math.round(m.progress * 100)}%`;
+                            } else if(m.status === 'loading tesseract core' || m.status === 'loading language traineddata') {
+                                progressText.innerText = `Mengunduh Data AI (${Math.round(m.progress * 100)}%)... Mohon tunggu.`;
+                            } else {
+                                progressText.innerText = m.status + "...";
                             }
                         }
                     }
                 );
+
+                // Membuat Promise Timeout (Batas Waktu Maksimal 30 Detik)
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => {
+                        reject(new Error("TIMEOUT"));
+                    }, 30000); // 30 detik
+                });
+
+                // Jalankan balapan antara OCR vs Timeout
+                const result = await Promise.race([ocrPromise, timeoutPromise]);
+                
+                if(!isScanning) return; // Keluar jika user sudah menekan tombol Batal
 
                 const text = result.data.text;
                 
@@ -670,6 +726,7 @@
                 if (kkFound) document.getElementById('ocrKK').value = kkFound;
                 if (namaFound) document.getElementById('ocrNama').value = namaFound;
                 
+                isScanning = false;
                 closeScanner();
 
                 if (!nikFound && !namaFound) {
@@ -680,13 +737,19 @@
                     btn.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
                     document.getElementById('scanText').innerText = "Data Telah Dipindai";
                     
-                    showMessage("Pemindaian Berhasil", "Beberapa data mungkin salah terbaca oleh AI jika foto buram. Harap cek ulang kebenaran NIK dan Nama.");
+                    showMessage("Pemindaian Berhasil", "Harap cek ulang kebenaran NIK dan Nama di form, karena AI bisa salah baca jika foto sedikit buram.");
                 }
                 
             } catch (error) {
-                console.error("Error OCR:", error);
+                isScanning = false;
                 closeScanner();
-                showMessage("Sistem Gagal", "Terjadi kesalahan saat memuat mesin OCR.");
+                
+                if (error.message === "TIMEOUT") {
+                    showMessage("Gagal: Terlalu Lama", "Koneksi internet lambat atau peramban memblokir unduhan AI. Silakan coba lagi atau isi manual.");
+                } else {
+                    console.error("Error OCR:", error);
+                    showMessage("Sistem Gagal", "Terjadi kesalahan sistem saat memuat mesin OCR di peramban ini.");
+                }
             }
         }
     </script>
