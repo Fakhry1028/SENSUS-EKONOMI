@@ -645,8 +645,9 @@
             processing.classList.remove('hidden');
             processing.style.display = 'flex';
             
-            // OPTIMASI: Kecilkan resolusi gambar agar browser tidak hang (maks 1000px)
-            const MAX_DIMENSION = 1000;
+            // OPTIMASI SUPER: Kecilkan resolusi gambar agar browser HP tidak hang/muter terus
+            // Resolusi dikunci maksimal 800px
+            const MAX_DIMENSION = 800;
             let width = videoElement.videoWidth;
             let height = videoElement.videoHeight;
 
@@ -662,43 +663,42 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(videoElement, 0, 0, width, height);
             
-            // Kompresi kualitas gambar ke 80%
-            const imageDataURL = canvas.toDataURL('image/jpeg', 0.8);
+            // Kompresi kualitas gambar ke 60% agar proses OCR secepat kilat
+            const imageDataURL = canvas.toDataURL('image/jpeg', 0.6);
 
             progressText.innerText = "Memeriksa Mesin AI...";
 
             try {
-                // Membuat Promise OCR Tesseract
+                // MENGGUNAKAN BAHASA 'eng' (English) 
+                // Alasan: 'eng' berukuran 2MB, 'ind' berukuran 15MB.
+                // Angka dan Nama Kapital bisa dibaca sempurna dengan 'eng' tanpa muter-muter.
                 const ocrPromise = Tesseract.recognize(
                     imageDataURL,
-                    'ind',
+                    'eng', 
                     { 
                         logger: m => {
                             if(!isScanning) return; // Stop log jika dibatalkan
                             
-                            // Menampilkan detail proses kepada pengguna agar tidak bingung
                             if(m.status === 'recognizing text') {
-                                progressText.innerText = `Membaca Teks: ${Math.round(m.progress * 100)}%`;
+                                progressText.innerText = `Membaca Dokumen: ${Math.round(m.progress * 100)}%`;
                             } else if(m.status === 'loading tesseract core' || m.status === 'loading language traineddata') {
-                                progressText.innerText = `Mengunduh Data AI (${Math.round(m.progress * 100)}%)... Mohon tunggu.`;
-                            } else {
-                                progressText.innerText = m.status + "...";
+                                progressText.innerText = `Memuat AI Ringan...`;
                             }
                         }
                     }
                 );
 
-                // Membuat Promise Timeout (Batas Waktu Maksimal 30 Detik)
+                // Membuat Promise Timeout (Batas Waktu Maksimal 15 Detik agar tidak stuck)
                 const timeoutPromise = new Promise((_, reject) => {
                     setTimeout(() => {
                         reject(new Error("TIMEOUT"));
-                    }, 30000); // 30 detik
+                    }, 15000); // 15 detik
                 });
 
                 // Jalankan balapan antara OCR vs Timeout
                 const result = await Promise.race([ocrPromise, timeoutPromise]);
                 
-                if(!isScanning) return; // Keluar jika user sudah menekan tombol Batal
+                if(!isScanning) return; // Keluar jika user menekan tombol Batal
 
                 const text = result.data.text;
                 
@@ -706,7 +706,7 @@
                 let kkFound = "";
                 let namaFound = "";
 
-                // Ekstraksi 16 Angka berderet
+                // Ekstraksi 16 Angka berderet (Bisa NIK atau KK)
                 const numberMatches = text.match(/\b\d{16}\b/g);
                 if (numberMatches && numberMatches.length > 0) {
                     nikFound = numberMatches[0]; 
@@ -715,7 +715,7 @@
                     }
                 }
 
-                // Ekstraksi teks setelah NAMA
+                // Ekstraksi teks setelah kata NAMA
                 const namaRegex = /NAMA\s*[:;]?\s*([A-Z\s]+)/i;
                 const matchNama = text.match(namaRegex);
                 if (matchNama && matchNama[1]) {
@@ -730,14 +730,14 @@
                 closeScanner();
 
                 if (!nikFound && !namaFound) {
-                    showMessage("Teks Sulit Dibaca", "Pastikan pencahayaan cukup dan kamera fokus (tidak blur). Silakan coba lagi.");
+                    showMessage("Teks Sulit Dibaca", "Pastikan pencahayaan cukup dan kamera fokus pada angka/nama di KTP/KK. Silakan coba lagi.");
                 } else {
                     const btn = document.getElementById('btnScan');
                     btn.classList.replace('bg-blue-600', 'bg-green-600');
                     btn.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
                     document.getElementById('scanText').innerText = "Data Telah Dipindai";
                     
-                    showMessage("Pemindaian Berhasil", "Harap cek ulang kebenaran NIK dan Nama di form, karena AI bisa salah baca jika foto sedikit buram.");
+                    showMessage("Pemindaian Selesai", "Sebagian data berhasil ditangkap. Harap periksa dan koreksi secara manual di form jika ada angka/huruf yang salah baca.");
                 }
                 
             } catch (error) {
@@ -745,10 +745,10 @@
                 closeScanner();
                 
                 if (error.message === "TIMEOUT") {
-                    showMessage("Gagal: Terlalu Lama", "Koneksi internet lambat atau peramban memblokir unduhan AI. Silakan coba lagi atau isi manual.");
+                    showMessage("Gagal: Proses Terlalu Lama", "Internet Anda mungkin memblokir unduhan AI, atau HP kehabisan memori. Silakan ketik data secara manual.");
                 } else {
                     console.error("Error OCR:", error);
-                    showMessage("Sistem Gagal", "Terjadi kesalahan sistem saat memuat mesin OCR di peramban ini.");
+                    showMessage("Sistem Gagal", "Terjadi kesalahan sistem saat memuat mesin AI di peramban ini.");
                 }
             }
         }
