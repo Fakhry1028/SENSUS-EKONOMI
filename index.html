@@ -854,6 +854,21 @@
                 delete dataObj[unitKey];
             }
             
+            // --- PERBAIKAN FATAL: SIMPAN KE LOKAL (HP) LEBIH DULU ---
+            // Ini menjamin data tidak akan hangus walau internet putus atau link Database error
+            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            savedData.push(dataObj);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+            
+            // Render ulang tampilan arsip agar langsung muncul di bawah
+            renderSavedData();
+
+            // Kosongkan dan sembunyikan form kembali untuk data selanjutnya
+            form.reset();
+            sectionUsaha.classList.add('hidden');
+            sectionIdUsaha.classList.add('hidden');
+            sectionKeuangan.classList.add('hidden');
+
             // --- Efek Loading pada Tombol ---
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
@@ -861,50 +876,45 @@
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            // --- PROSES KIRIM KE GOOGLE SHEETS & BACKUP LOKAL ---
+            // --- PROSES KIRIM KE GOOGLE SHEETS ---
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                // redirect: 'follow' mencegah error jika google melakukan redirect internal
                 redirect: 'follow', 
                 body: JSON.stringify(dataObj),
-                // Gunakan text/plain untuk bypass verifikasi CORS kompleks di Google Apps Script
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Jaringan bermasalah atau URL Spreadsheet salah.');
+                const contentType = response.headers.get("content-type");
+                // Cek apakah Google membalas dengan JSON (sukses) atau malah halaman Error (karena link salah)
+                if (contentType && contentType.includes("application/json")) {
+                    return response.json();
+                } else {
+                    throw new Error('Link Spreadsheet Anda SALAH atau belum di "Deploy" aksesnya menjadi Semua Orang.');
                 }
-                return response.json();
             })
             .then(data => {
                 if(data.result === 'success') {
-                    // Simpan ke localStorage sebagai backup (Bisa dilihat di arsip web)
-                    let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-                    savedData.push(dataObj);
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+                    showModal('Sukses Terkirim', `Data <b>${namaLengkap}</b> berhasil disimpan ke Server Database & Arsip Lokal!`, true);
 
-                    showModal('Sukses Terkirim', `Data milik <b>${namaLengkap}</b> berhasil disimpan ke Server Google Sheets dan arsip perangkat ini!`, true);
-
-                    // Reset form dan sembunyikan menu usaha kembali
-                    form.reset();
-                    sectionUsaha.classList.add('hidden');
-                    sectionIdUsaha.classList.add('hidden');
-                    sectionKeuangan.classList.add('hidden');
-                    
-                    renderSavedData();
-
-                    // Pindah ke halaman preview setelah sukses
+                    // Pindah ke halaman preview jika 100% aman
                     setTimeout(() => {
                         closeModal();
                         showPreviewView(savedData.length - 1);
-                    }, 1500);
+                    }, 2000);
                 } else {
                     throw new Error(data.error || 'Server Google Sheets menolak permintaan.');
                 }
             })
             .catch(error => {
                 console.error('Error Pengiriman:', error);
-                showModal('Gagal Mengirim ke Spreadsheet', `<b>Penyebab:</b> ${error.message}<br><br><b>Solusi:</b><br>1. Pastikan Internet Anda lancar.<br>2. Pastikan Anda sudah membuat <b>"Deployment Baru"</b> di Google Apps Script, memilih akses <b>"Semua Orang"</b>, dan menempel URL yang baru ke SCRIPT_URL.`, false);
+                // Notifikasi sekarang ngasih tau kalau data tetap AMAN di lokal
+                showModal('Tersimpan di HP Saja', `Data <b>${namaLengkap}</b> AMAN tersimpan di arsip HP ini, TAPI <b>Gagal masuk ke Database Google!</b><br><br><b>Penyebab:</b> ${error.message}<br><br><b>Solusi:</b> Biarkan dulu saja, cek link Spreadsheet Anda nanti.`, false);
+                
+                // Tetap pindah ke halaman preview karena setidaknya data HP sudah terselamatkan
+                setTimeout(() => {
+                    closeModal();
+                    showPreviewView(savedData.length - 1);
+                }, 4000);
             })
             .finally(() => {
                 // Kembalikan tombol ke keadaan semula
