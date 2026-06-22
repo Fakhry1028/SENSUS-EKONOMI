@@ -768,8 +768,8 @@
                 // Abaikan jika bagian/section sedang disembunyikan (hidden)
                 if (input.closest('.form-section') && input.closest('.form-section').classList.contains('hidden')) continue;
                 
-                // Abaikan kolom catatan_tambahan (Boleh Kosong)
-                if (input.name === 'catatan_tambahan') continue;
+                // Abaikan kolom catatan_tambahan dan jenis_usaha_keluarga (Keduanya Boleh Kosong/Opsional)
+                if (input.name === 'catatan_tambahan' || input.name === 'jenis_usaha_keluarga') continue;
 
                 // Logika Validasi Radio Button
                 if (input.type === 'radio') {
