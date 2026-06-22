@@ -17,7 +17,6 @@
             transition: background-color 0.5s, color 0.5s;
         }
         
-        /* Glassmorphism effect for sections */
         .form-section { 
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
@@ -33,9 +32,8 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* Dark mode overrides for section */
         .dark .form-section {
-            background: rgba(30, 41, 59, 0.8); /* slate-800 with opacity */
+            background: rgba(30, 41, 59, 0.8);
             border-color: rgba(255, 255, 255, 0.05);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         }
@@ -82,9 +80,7 @@
             border: 1px solid #475569;
             color: #f8fafc;
         }
-        .dark .input-field::placeholder {
-            color: #94a3b8;
-        }
+        .dark .input-field::placeholder { color: #94a3b8; }
         
         .input-field:focus { 
             border-color: #3b82f6; 
@@ -96,12 +92,11 @@
         }
 
         .radio-group { display: flex; gap: 1.5rem; margin-top: 0.5rem; }
-        .flex-input { display: flex; gap: 0.75rem; }
         
-        /* Smooth scrolling */
+        /* Transition utility for hiding sections smoothly */
+        .hidden { display: none !important; }
+        
         html { scroll-behavior: smooth; }
-
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -114,20 +109,17 @@
     <!-- Navbar / Header Controls -->
     <div class="fixed top-0 left-0 right-0 p-4 flex justify-end z-50 pointer-events-none">
         <button onclick="toggleDarkMode()" class="pointer-events-auto bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg border border-gray-200 dark:border-slate-700 hover:scale-110 transition-transform duration-200 focus:outline-none">
-            <!-- Sun Icon (shows in dark mode) -->
             <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 3.22a1 1 0 011.415 0l.85.85a1 1 0 01-1.414 1.414l-.85-.85a1 1 0 010-1.415zM16 10a1 1 0 011 1h1a1 1 0 110-2h-1a1 1 0 01-1 1zm-3.22 4.22a1 1 0 010 1.415l-.85.85a1 1 0 01-1.414-1.414l.85-.85a1 1 0 011.415 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.22-3.22a1 1 0 01-1.415 0l-.85-.85a1 1 0 011.414-1.414l.85.85a1 1 0 010 1.415zM4 10a1 1 0 01-1-1H2a1 1 0 110 2h1a1 1 0 011-1zm3.22-4.22a1 1 0 010-1.415l.85-.85a1 1 0 011.414 1.414l-.85.85a1 1 0 01-1.415 0z"></path><path d="M10 5a5 5 0 100 10 5 5 0 000-10z"></path></svg>
-            <!-- Moon Icon (shows in light mode) -->
             <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-indigo-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
         </button>
     </div>
 
-    <!-- MAIN VIEW (Form & List) -->
+    <!-- MAIN VIEW -->
     <div id="mainView" class="max-w-5xl mx-auto pt-12 pb-12 px-4 sm:px-6 lg:px-8 transition-opacity duration-300">
         
-        <!-- Header -->
         <div class="mb-10 text-center">
             <div class="inline-block p-4 rounded-full bg-blue-100 dark:bg-blue-900/50 mb-4 shadow-inner">
-                <svg class="w-10 h-10 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <svg class="w-10 h-10 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             </div>
             <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600 dark:from-blue-400 dark:to-indigo-300 drop-shadow-sm">WAWANCARA SE2026</h1>
             <p class="text-gray-600 dark:text-gray-400 mt-3 text-lg font-medium">Sistem Penginputan Sensus Ekonomi & Aset</p>
@@ -143,7 +135,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div class="input-group">
                         <label class="input-label light-label">Nama Lengkap *</label>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" required class="input-field" placeholder="Masukkan nama lengkap">
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" class="input-field" placeholder="Masukkan nama lengkap">
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">No. WhatsApp</label>
@@ -184,7 +176,8 @@
                     </div>
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Jenis Usaha Keluarga (jika ada)</label>
-                        <input type="text" name="jenis_usaha_keluarga" class="input-field" placeholder="Contoh: Warung sembako, Jasa jahit">
+                        <input type="text" name="jenis_usaha_keluarga" id="input_jenis_usaha" class="input-field bg-blue-50/50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800" placeholder="Ketik jenis usaha di sini untuk memunculkan form Usaha (Kosongi jika tidak ada)">
+                        <p class="text-[11px] mt-1.5 italic text-blue-600 dark:text-blue-400 font-medium">Jika diisi, Menu 5, 6, dan 7 akan otomatis muncul.</p>
                     </div>
                 </div>
             </div>
@@ -216,8 +209,8 @@
                         <input type="text" name="keberadaan" class="input-field" placeholder="Di rumah / Merantau dll">
                     </div>
                     <div class="input-group">
-                        <label class="input-label light-label">Penyakit Kronis (Jika ada)</label>
-                        <input type="text" name="penyakit_kronis" class="input-field" placeholder="Kosongkan jika tidak ada">
+                        <label class="input-label light-label">Penyakit Kronis</label>
+                        <input type="text" name="penyakit_kronis" class="input-field" placeholder="Kosongkan jika tidak ada (isi strip -)">
                     </div>
                 </div>
             </div>
@@ -230,9 +223,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div class="input-group">
                         <label class="input-label light-label">Luas Tanah & Bangunan</label>
-                        <div class="flex-input">
-                            <input type="number" name="luas_tanah_bangunan" class="input-field w-2/3" placeholder="Nilai Luas">
-                            <select name="satuan_luas_tanah" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="number" name="luas_tanah_bangunan" class="input-field sm:w-2/3" placeholder="Nilai Luas">
+                            <select name="satuan_luas_tanah" class="input-field sm:w-1/3">
                                 <option value="m2">m²</option>
                                 <option value="Ubin">Ubin</option>
                                 <option value="Hektar">Hektar</option>
@@ -240,10 +233,10 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label class="input-label light-label">Luar Rumah (sawah, toko, sewa dll)</label>
-                        <div class="flex-input">
-                            <input type="number" name="luas_luar_rumah" class="input-field w-2/3" placeholder="Nilai Luas">
-                            <select name="satuan_luas_luar" class="input-field w-1/3">
+                        <label class="input-label light-label">Luar Rumah</label>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="number" name="luas_luar_rumah" class="input-field sm:w-2/3" placeholder="Nilai Luas">
+                            <select name="satuan_luas_luar" class="input-field sm:w-1/3">
                                 <option value="m2">m²</option>
                                 <option value="Ubin">Ubin</option>
                                 <option value="Hektar">Hektar</option>
@@ -253,12 +246,12 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Perkiraan Nilai Aset per-2025 (Rp)</label>
-                        <input type="text" inputmode="numeric" name="nilai_aset" class="input-field currency-input" placeholder="Perkiraan jika dijual">
+                        <input type="text" inputmode="numeric" name="nilai_aset" class="input-field currency-input" placeholder="Rp">
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Perkiraan saja jika dijual</p>
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Perkiraan Nilai Non Aset per-2025 (Rp)</label>
-                        <input type="text" inputmode="numeric" name="nilai_non_aset" class="input-field currency-input" placeholder="Sawah, lahan sewa, dll jika dijual">
+                        <input type="text" inputmode="numeric" name="nilai_non_aset" class="input-field currency-input" placeholder="Rp">
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Perkiraan saja jika toko, sawah, lahan sewa, dll.. dijual</p>
                     </div>
                     <div class="input-group">
@@ -279,8 +272,8 @@
                 </div>
             </div>
 
-            <!-- 5. Usaha / Pendapatan -->
-            <div class="form-section group">
+            <!-- 5. Usaha / Pendapatan (HIDDEN BY DEFAULT) -->
+            <div id="section-usaha" class="form-section group hidden">
                 <h2 class="section-title light-title">
                     <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">5</span> Usaha / Pendapatan
                 </h2>
@@ -300,8 +293,8 @@
                 </div>
             </div>
 
-            <!-- 6. Identitas Usaha -->
-            <div class="form-section group">
+            <!-- 6. Identitas Usaha (HIDDEN BY DEFAULT) -->
+            <div id="section-identitas-usaha" class="form-section group hidden">
                 <h2 class="section-title light-title">
                     <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">6</span> Identitas Usaha (Jika Ada)
                 </h2>
@@ -331,7 +324,6 @@
                             <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="produksi_barang" value="Iya" class="accent-blue-600"> Iya</label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="produksi_barang" value="Tidak" class="accent-blue-600"> Tidak</label>
                         </div>
-                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">= Makan & Minum</p>
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Jenis Usaha</label>
@@ -344,17 +336,18 @@
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Cabang/Unit Penunjang/Tunggal</p>
                     </div>
                     <div class="input-group">
-                        <label class="input-label light-label">Jumlah Pekerja</label>
-                        <div class="flex-input">
-                            <input type="number" name="pekerja_pria" class="input-field" placeholder="Pria (Orang)">
-                            <input type="number" name="pekerja_wanita" class="input-field" placeholder="Wanita (Orang)">
-                        </div>
+                        <label class="input-label light-label">Jumlah Pekerja Pria</label>
+                        <input type="number" name="pekerja_pria" class="input-field" placeholder="Orang">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Jumlah Pekerja Wanita</label>
+                        <input type="number" name="pekerja_wanita" class="input-field" placeholder="Orang">
                     </div>
                 </div>
             </div>
 
-            <!-- 7. Pengeluaran & Pendapatan Usaha Tahunan -->
-            <div class="form-section group">
+            <!-- 7. Pengeluaran & Pendapatan Usaha Tahunan (HIDDEN BY DEFAULT) -->
+            <div id="section-keuangan-usaha" class="form-section group hidden">
                 <h2 class="section-title light-title">
                     <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">7</span> Keuangan Usaha
                 </h2>
@@ -374,9 +367,9 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Biaya Honorer (Rp)</label>
-                        <div class="flex-input">
-                            <input type="text" inputmode="numeric" name="biaya_honorer" class="input-field w-2/3 currency-input" placeholder="Nominal">
-                            <select name="periode_honorer" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" inputmode="numeric" name="biaya_honorer" class="input-field sm:w-2/3 currency-input" placeholder="Nominal">
+                            <select name="periode_honorer" class="input-field sm:w-1/3">
                                 <option value="Hr">/ Hari</option>
                                 <option value="Mgg">/ Minggu</option>
                                 <option value="Bln">/ Bulan</option>
@@ -385,9 +378,9 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Biaya Produksi (Rp)</label>
-                        <div class="flex-input">
-                            <input type="text" inputmode="numeric" name="biaya_produksi" class="input-field w-2/3 currency-input" placeholder="Nominal">
-                            <select name="periode_produksi" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" inputmode="numeric" name="biaya_produksi" class="input-field sm:w-2/3 currency-input" placeholder="Nominal">
+                            <select name="periode_produksi" class="input-field sm:w-1/3">
                                 <option value="Hr">/ Hari</option>
                                 <option value="Mgg">/ Minggu</option>
                                 <option value="Bln">/ Bulan</option>
@@ -396,9 +389,9 @@
                     </div>
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Biaya Operasional</label>
-                        <div class="flex-input">
-                            <input type="text" inputmode="numeric" name="biaya_operasional" class="input-field w-2/3 currency-input" placeholder="Nominal Rp">
-                            <select name="periode_operasional" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" inputmode="numeric" name="biaya_operasional" class="input-field sm:w-2/3 currency-input" placeholder="Nominal Rp">
+                            <select name="periode_operasional" class="input-field sm:w-1/3">
                                 <option value="Hr">/ Hari</option>
                                 <option value="Mgg">/ Minggu</option>
                                 <option value="Bln">/ Bulan</option>
@@ -408,9 +401,9 @@
                     </div>
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Biaya Non-Operasional</label>
-                        <div class="flex-input">
-                            <input type="text" inputmode="numeric" name="biaya_non_operasional" class="input-field w-2/3 currency-input" placeholder="Nominal Rp">
-                            <select name="periode_non_operasional" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" inputmode="numeric" name="biaya_non_operasional" class="input-field sm:w-2/3 currency-input" placeholder="Nominal Rp">
+                            <select name="periode_non_operasional" class="input-field sm:w-1/3">
                                 <option value="Hr">/ Hari</option>
                                 <option value="Mgg">/ Minggu</option>
                                 <option value="Bln">/ Bulan</option>
@@ -424,9 +417,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div class="input-group">
                         <label class="input-label light-label">Hasil Usaha (Rp)</label>
-                        <div class="flex-input">
-                            <input type="text" inputmode="numeric" name="hasil_usaha" class="input-field w-2/3 currency-input" placeholder="Nominal">
-                            <select name="periode_hasil" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" inputmode="numeric" name="hasil_usaha" class="input-field sm:w-2/3 currency-input" placeholder="Nominal">
+                            <select name="periode_hasil" class="input-field sm:w-1/3">
                                 <option value="Hr">/ Hari</option>
                                 <option value="Mgg">/ Minggu</option>
                                 <option value="Bln">/ Bulan</option>
@@ -435,9 +428,9 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Pemasukan Luar Usaha (Rp)</label>
-                        <div class="flex-input">
-                            <input type="text" inputmode="numeric" name="luar_usaha" class="input-field w-2/3 currency-input" placeholder="Nominal">
-                            <select name="periode_luar_usaha" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" inputmode="numeric" name="luar_usaha" class="input-field sm:w-2/3 currency-input" placeholder="Nominal">
+                            <select name="periode_luar_usaha" class="input-field sm:w-1/3">
                                 <option value="Hr">/ Hari</option>
                                 <option value="Mgg">/ Minggu</option>
                                 <option value="Bln">/ Bulan</option>
@@ -548,9 +541,9 @@
                     </div>
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Pengeluaran Makan & Rokok (Rp)</label>
-                        <div class="flex-input">
-                            <input type="text" inputmode="numeric" name="biaya_makan_rokok" class="input-field w-2/3 currency-input" placeholder="Nominal">
-                            <select name="periode_makan_rokok" class="input-field w-1/3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" inputmode="numeric" name="biaya_makan_rokok" class="input-field sm:w-2/3 currency-input" placeholder="Nominal">
+                            <select name="periode_makan_rokok" class="input-field sm:w-1/3">
                                 <option value="Hr">/ Hari</option>
                                 <option value="Mgg">/ Minggu</option>
                             </select>
@@ -575,7 +568,7 @@
                 <h2 class="section-title light-title">
                     <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">9</span> Aset Pribadi
                 </h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
                     <div class="input-group">
                         <label class="input-label light-label">Elpiji (3kg / 5.5kg)</label>
                         <input type="number" name="elpiji" class="input-field" placeholder="Jumlah Tabung">
@@ -611,32 +604,32 @@
                     </div>
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Jumlah Tanah Lain</label>
-                        <div class="flex-input">
-                            <input type="number" name="jumlah_tanah_lain" class="input-field w-1/3" placeholder="Jml Tempat">
-                            <input type="text" inputmode="numeric" name="harga_tanah_lain" class="input-field w-2/3 currency-input" placeholder="Harga Jual (Rp)">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="number" name="jumlah_tanah_lain" class="input-field sm:w-1/3" placeholder="Jml Tempat">
+                            <input type="text" inputmode="numeric" name="harga_tanah_lain" class="input-field sm:w-2/3 currency-input" placeholder="Harga Jual (Rp)">
                         </div>
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Jika dijual per-2025</p>
                     </div>
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Jumlah Bangunan Lain</label>
-                        <div class="flex-input">
-                            <input type="number" name="jumlah_bangunan_lain" class="input-field w-1/3" placeholder="Jml Tempat">
-                            <input type="text" inputmode="numeric" name="harga_bangunan_lain" class="input-field w-2/3 currency-input" placeholder="Harga Jual (Rp)">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="number" name="jumlah_bangunan_lain" class="input-field sm:w-1/3" placeholder="Jml Tempat">
+                            <input type="text" inputmode="numeric" name="harga_bangunan_lain" class="input-field sm:w-2/3 currency-input" placeholder="Harga Jual (Rp)">
                         </div>
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">jika dijual per-2025</p>
                     </div>
 
-                    <!-- FITUR BARU: Kolom Catatan Tambahan -->
-                    <div class="input-group md:col-span-4 mt-2">
-                        <label class="input-label light-label text-indigo-600 dark:text-indigo-400">Catatan Tambahan (Bila Ada)</label>
-                        <textarea name="catatan_tambahan" class="input-field bg-yellow-50 dark:bg-slate-800" rows="3" placeholder="Tuliskan keterangan tambahan atau info penting lainnya di sini..."></textarea>
+                    <!-- FITUR BARU: Kolom Catatan Tambahan (Bisa Kosong) -->
+                    <div class="input-group col-span-1 sm:col-span-2 md:col-span-4 mt-4">
+                        <label class="input-label light-label text-indigo-600 dark:text-indigo-400 font-bold text-lg">Catatan Tambahan (Bila Ada)</label>
+                        <textarea name="catatan_tambahan" class="input-field bg-yellow-50/70 dark:bg-slate-800/80 border-yellow-200 dark:border-slate-600" rows="5" placeholder="Tuliskan keterangan tambahan, rincian detail aset yang tidak muat, atau info penting lainnya di sini..."></textarea>
                     </div>
                 </div>
             </div>
 
             <!-- Submit Button -->
             <div class="flex justify-end mt-8 mb-4">
-                <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-10 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200">
+                <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-10 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-lg">
                     Simpan Data Kuesioner
                 </button>
             </div>
@@ -673,14 +666,13 @@
                 <p id="previewName" class="text-blue-100 mt-1 font-medium text-lg"></p>
                 <p id="previewTime" class="text-xs text-blue-200 mt-2 opacity-80"></p>
             </div>
-            
             <div id="previewContent" class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Content gets dynamically generated here -->
+                <!-- Content dynamically generated -->
             </div>
         </div>
     </div>
 
-    <!-- Custom Modal / Toast (Unchanged mostly, just styling) -->
+    <!-- Custom Modal / Toast -->
     <div id="successModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] hidden opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300 border border-gray-100 dark:border-slate-700" id="modalContent">
             <div class="text-center">
@@ -689,10 +681,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl leading-6 font-bold text-gray-900 dark:text-white" id="modalTitle">Berhasil Disimpan</h3>
+                <h3 class="text-xl leading-6 font-bold text-gray-900 dark:text-white" id="modalTitle">Info</h3>
                 <div class="mt-3">
-                    <p class="text-sm text-gray-500 dark:text-gray-400" id="modalMessage">Data kuesioner Anda telah berhasil disimpan.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400" id="modalMessage">Pesan.</p>
                 </div>
+                <!-- Tombol tutup untuk error -->
+                <button type="button" onclick="closeModal()" id="btnTutupModal" class="mt-5 w-full hidden justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                    Mengerti
+                </button>
             </div>
         </div>
     </div>
@@ -704,7 +700,6 @@
         const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
         const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-        // Check initialization
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
             themeToggleLightIcon.classList.remove('hidden');
@@ -738,24 +733,83 @@
             }
         });
 
+        // LOGIKA PENAMPILAN SECTION USAHA OTOMATIS
+        const inputUsaha = document.getElementById('input_jenis_usaha');
+        const sectionUsaha = document.getElementById('section-usaha');
+        const sectionIdUsaha = document.getElementById('section-identitas-usaha');
+        const sectionKeuangan = document.getElementById('section-keuangan-usaha');
+
+        inputUsaha.addEventListener('input', function() {
+            if (this.value.trim().length > 0) {
+                sectionUsaha.classList.remove('hidden');
+                sectionIdUsaha.classList.remove('hidden');
+                sectionKeuangan.classList.remove('hidden');
+            } else {
+                sectionUsaha.classList.add('hidden');
+                sectionIdUsaha.classList.add('hidden');
+                sectionKeuangan.classList.add('hidden');
+            }
+        });
+
         // Tampilkan data list saat halaman dimuat
         document.addEventListener('DOMContentLoaded', renderSavedData);
 
-        // Menangani pengiriman formulir
+        // Menangani pengiriman formulir dengan Validasi Cerdas
         document.getElementById('se2026Form').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const namaLengkap = document.getElementById('nama_lengkap').value.trim();
-            if (!namaLengkap) return;
+            let isValid = true;
+            const form = this;
+            
+            // Periksa semua input yang tidak berada di dalam section yang tersembunyi
+            const allInputs = form.querySelectorAll('input:not([type="hidden"]), select, textarea');
+            
+            for(let input of allInputs) {
+                // Abaikan jika bagian/section sedang disembunyikan (hidden)
+                if (input.closest('.form-section') && input.closest('.form-section').classList.contains('hidden')) continue;
+                
+                // Abaikan kolom catatan_tambahan (Boleh Kosong)
+                if (input.name === 'catatan_tambahan') continue;
 
-            // Ambil semua data form
+                // Logika Validasi Radio Button
+                if (input.type === 'radio') {
+                    const name = input.name;
+                    const isChecked = form.querySelector(`input[name="${name}"]:checked`);
+                    if (!isChecked) {
+                        isValid = false;
+                        input.closest('.input-group').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        showModal('Perhatian', `Harap pilih salah satu pada:<br><b>${input.closest('.input-group').querySelector('.input-label').textContent}</b>`, false);
+                        break; 
+                    }
+                    continue;
+                }
+
+                // Logika Validasi Kolom Biasa (Teks, Angka, dll)
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    input.focus();
+                    
+                    // Efek merah berkedip sebagai penanda
+                    input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
+                    setTimeout(() => input.classList.remove('border-red-500', 'ring-2', 'ring-red-200'), 2500);
+                    
+                    const labelText = input.closest('.input-group') ? input.closest('.input-group').querySelector('.input-label').textContent : 'Kolom ini';
+                    showModal('Kolom Kosong', `Harap isi: <b>${labelText}</b><br><span class="text-xs text-gray-500 mt-2 block">Catatan: Isi dengan angka 0 atau strip (-) jika tidak ada/kosong.</span>`, false);
+                    break; 
+                }
+            }
+
+            if (!isValid) return;
+
+            // Jika lulus semua validasi:
+            const namaLengkap = document.getElementById('nama_lengkap').value.trim();
             const formData = new FormData(this);
             const dataObj = {};
             formData.forEach((value, key) => {
                 dataObj[key] = value;
             });
 
-            // Tambahkan timestamp
             dataObj.timestamp = new Date().toLocaleString('id-ID');
             
             // Simpan ke localStorage
@@ -763,14 +817,17 @@
             savedData.push(dataObj);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
 
-            // Tampilkan notifikasi cepat
-            showModal('Sukses', `Data milik <b>${namaLengkap}</b> berhasil disimpan!`);
+            showModal('Sukses', `Data milik <b>${namaLengkap}</b> berhasil disimpan!`, true);
 
-            // Reset form
+            // Reset form dan sembunyikan menu usaha kembali
             this.reset();
+            sectionUsaha.classList.add('hidden');
+            sectionIdUsaha.classList.add('hidden');
+            sectionKeuangan.classList.add('hidden');
+            
             renderSavedData();
 
-            // Pindah ke halaman preview setelah modal hilang (sedikit delay)
+            // Pindah ke halaman preview setelah sukses
             setTimeout(() => {
                 closeModal();
                 showPreviewView(savedData.length - 1);
@@ -788,11 +845,8 @@
             }
 
             container.innerHTML = '';
-            
-            // Loop data terbalik (terbaru di atas)
             savedData.slice().reverse().forEach((data, reversedIndex) => {
                 const actualIndex = savedData.length - 1 - reversedIndex;
-                
                 const card = document.createElement('div');
                 card.className = 'bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm hover:shadow-lg border border-gray-100 dark:border-slate-700 cursor-pointer transform hover:-translate-y-1 transition-all duration-200 group';
                 card.onclick = () => showPreviewView(actualIndex);
@@ -816,7 +870,7 @@
             });
         }
 
-        // VIEW NAVIGATION
+        // VIEW NAVIGATION & HISTORY API (ANTI BACK/EXIT)
         const mainView = document.getElementById('mainView');
         const previewView = document.getElementById('previewView');
 
@@ -824,9 +878,18 @@
             previewView.classList.add('hidden');
             mainView.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Hapus status history biar url bersih
+            history.replaceState(null, '', window.location.pathname);
         }
 
-        // Fungsi format teks label (contoh: nama_lengkap -> Nama Lengkap)
+        // Tangkap event Swipe Back / Tombol Kembali HP
+        window.addEventListener('popstate', (e) => {
+            if (location.hash !== '#preview') {
+                previewView.classList.add('hidden');
+                mainView.classList.remove('hidden');
+            }
+        });
+
         function formatLabel(key) {
             return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         }
@@ -836,19 +899,15 @@
             const data = savedData[index];
             if(!data) return;
 
-            // Set Header Preview
             document.getElementById('previewName').textContent = data.nama_lengkap;
             document.getElementById('previewTime').textContent = `Waktu Input: ${data.timestamp}`;
 
-            // Generate Content Body Grid
             const contentDiv = document.getElementById('previewContent');
             let htmlString = '';
 
             for (const [key, value] of Object.entries(data)) {
-                // Skip timestamp dan field kosong biar rapi
                 if (key === 'timestamp' || key === 'nama_lengkap') continue;
 
-                // Highlight khusus untuk catatan tambahan
                 const isCatatan = key === 'catatan_tambahan';
                 const colSpanClass = isCatatan ? 'col-span-1 md:col-span-2' : '';
                 const bgClass = isCatatan 
@@ -865,19 +924,44 @@
 
             contentDiv.innerHTML = htmlString;
 
-            // Transisi View
             mainView.classList.add('hidden');
             previewView.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Tambahkan flag #preview ke history agar saat dipencet 'Back' tidak keluar
+            history.pushState({ view: 'preview' }, '', '#preview');
         }
 
         // Fungsi kontrol modal
         const modal = document.getElementById('successModal');
         const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
+        const btnTutupModal = document.getElementById('btnTutupModal');
 
-        function showModal(title, message) {
+        function showModal(title, message, isSuccess = true) {
+            modalTitle.textContent = title;
             modalMessage.innerHTML = message; 
+            
+            const iconSvg = isSuccess 
+                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>'
+                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+            const iconBg = isSuccess ? 'bg-green-100 dark:bg-green-900/40' : 'bg-red-100 dark:bg-red-900/40';
+            const iconColor = isSuccess ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
+
+            const iconContainer = modalContent.querySelector('div.mx-auto');
+            iconContainer.className = `mx-auto flex items-center justify-center h-16 w-16 rounded-full ${iconBg} mb-5 shadow-inner`;
+            iconContainer.querySelector('svg').className = `h-8 w-8 ${iconColor}`;
+            iconContainer.querySelector('svg').innerHTML = iconSvg;
+
+            if (!isSuccess) {
+                btnTutupModal.classList.remove('hidden');
+                btnTutupModal.classList.add('flex');
+            } else {
+                btnTutupModal.classList.add('hidden');
+                btnTutupModal.classList.remove('flex');
+            }
+
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
