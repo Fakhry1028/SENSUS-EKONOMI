@@ -708,11 +708,16 @@
 
     <script>
         const STORAGE_KEY = 'SE2026_RESPONSES';
+        
+        // --- TEMPEL URL DARI GOOGLE APPS SCRIPT DI SINI ---
+        // PASTIKAN URL BERAKHIRAN /exec
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwlrqFm4kFjt5vLMkQVSC7TCvNI2sIJbXfPZFxa5ULzdRIFYO74ql1n0b2RQZBHMwGD/exec';
 
         // DARK MODE LOGIC
         const themeToggleIcon = document.getElementById('theme-toggle-icon');
         let currentRotation = 0;
 
+        // Inisialisasi tema saat web dimuat
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -824,26 +829,64 @@
 
             dataObj.timestamp = new Date().toLocaleString('id-ID');
             
-            // Simpan ke localStorage
-            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            savedData.push(dataObj);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+            // --- TAMBAHAN: Efek Loading pada Tombol ---
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sedang Mengirim...`;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            showModal('Sukses', `Data milik <b>${namaLengkap}</b> berhasil disimpan!`, true);
+            // --- PROSES KIRIM KE GOOGLE SHEETS & BACKUP LOKAL ---
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                // redirect: 'follow' mencegah error jika google melakukan redirect internal
+                redirect: 'follow', 
+                body: JSON.stringify(dataObj),
+                // Gunakan text/plain untuk bypass verifikasi CORS kompleks di Google Apps Script
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Jaringan bermasalah atau URL Spreadsheet salah.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data.result === 'success') {
+                    // Simpan ke localStorage sebagai backup (Bisa dilihat di arsip web)
+                    let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+                    savedData.push(dataObj);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
 
-            // Reset form dan sembunyikan menu usaha kembali
-            this.reset();
-            sectionUsaha.classList.add('hidden');
-            sectionIdUsaha.classList.add('hidden');
-            sectionKeuangan.classList.add('hidden');
-            
-            renderSavedData();
+                    showModal('Sukses Terkirim', `Data milik <b>${namaLengkap}</b> berhasil disimpan ke Server Google Sheets dan arsip perangkat ini!`, true);
 
-            // Pindah ke halaman preview setelah sukses
-            setTimeout(() => {
-                closeModal();
-                showPreviewView(savedData.length - 1);
-            }, 1200); 
+                    // Reset form dan sembunyikan menu usaha kembali
+                    form.reset();
+                    sectionUsaha.classList.add('hidden');
+                    sectionIdUsaha.classList.add('hidden');
+                    sectionKeuangan.classList.add('hidden');
+                    
+                    renderSavedData();
+
+                    // Pindah ke halaman preview setelah sukses
+                    setTimeout(() => {
+                        closeModal();
+                        showPreviewView(savedData.length - 1);
+                    }, 1500);
+                } else {
+                    throw new Error(data.error || 'Server Google Sheets menolak permintaan.');
+                }
+            })
+            .catch(error => {
+                console.error('Error Pengiriman:', error);
+                showModal('Gagal Mengirim ke Spreadsheet', `<b>Penyebab:</b> ${error.message}<br><br><b>Solusi:</b><br>1. Pastikan Internet Anda lancar.<br>2. Pastikan Anda sudah membuat <b>"Deployment Baru"</b> di Google Apps Script, memilih akses <b>"Semua Orang"</b>, dan menempel URL yang baru ke SCRIPT_URL.`, false);
+            })
+            .finally(() => {
+                // Kembalikan tombol ke keadaan semula
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            });
         });
 
         // Merender daftar orang bentuk Grid Cards
@@ -890,8 +933,14 @@
             previewView.classList.add('hidden');
             mainView.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            // Hapus status history biar url bersih
-            history.replaceState(null, '', window.location.pathname);
+            
+            // Hapus status history biar url bersih, pakai try-catch untuk hindari error di mode Preview/Sandbox
+            try {
+                history.replaceState(null, '', window.location.pathname);
+            } catch (e) {
+                // Fallback aman untuk browser yang memblokir History API
+                window.location.hash = '';
+            }
         }
 
         // Tangkap event Swipe Back / Tombol Kembali HP
@@ -941,7 +990,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             // Tambahkan flag #preview ke history agar saat dipencet 'Back' tidak keluar
-            history.pushState({ view: 'preview' }, '', '#preview');
+            // Pakai try-catch untuk hindari error di mode Preview Sandbox
+            try {
+                history.pushState({ view: 'preview' }, '', '#preview');
+            } catch (e) {
+                // Fallback aman
+                window.location.hash = 'preview';
+            }
         }
 
         // Fungsi kontrol modal
