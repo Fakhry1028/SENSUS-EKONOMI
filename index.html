@@ -662,32 +662,7 @@
     </div>
 
     <!-- PREVIEW VIEW (Full Data Sheet) -->
-    <div id="previewView" class="hidden max-w-4xl mx-auto pt-12 pb-12 px-4 sm:px-6 lg:px-8 transition-opacity duration-300">
-        <div class="mb-6 flex justify-between items-center">
-            <button onclick="showMainView()" class="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors bg-white dark:bg-slate-800 px-4 py-2 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 hover:shadow-md">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Kembali ke Form
-            </button>
-            <span class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 text-sm font-semibold rounded-full border border-green-200 dark:border-green-800">
-                Mode Preview
-            </span>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white text-center">
-                <h2 class="text-2xl font-bold">Rincian Data Sensus 2026</h2>
-                <p id="previewName" class="text-blue-100 mt-1 font-medium text-lg"></p>
-                <p id="previewTime" class="text-xs text-blue-200 mt-2 opacity-80"></p>
-            </div>
-            <div id="previewContent" class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Content dynamically generated -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Custom Modal / Toast -->
-    <div id="successModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300 border border-gray-100 dark:border-slate-700" id="modalContent">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden" id="modalContent">
             <div class="text-center">
                 <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 dark:bg-green-900/40 mb-5 shadow-inner">
                     <svg class="h-8 w-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -706,12 +681,37 @@
         </div>
     </div>
 
+    <!-- MODAL KONFIRMASI HAPUS (BARU) -->
+    <div id="confirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[110] hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300 border border-gray-100 dark:border-slate-700" id="confirmContent">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 dark:bg-red-900/40 mb-5 shadow-inner">
+                    <svg class="h-8 w-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl leading-6 font-bold text-gray-900 dark:text-white">Konfirmasi Hapus</h3>
+                <div class="mt-3">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Apakah Anda yakin ingin menghapus data ini secara permanen dari <b>perangkat</b> dan <b>Database (Google Sheets)</b>?</p>
+                </div>
+                <div class="mt-6 flex gap-3 justify-center">
+                    <button type="button" onclick="closeConfirmModal()" class="w-full justify-center rounded-xl border border-gray-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-700 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none sm:text-sm">
+                        Batal
+                    </button>
+                    <button type="button" id="btnConfirmAction" class="w-full flex justify-center items-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:text-sm">
+                        Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const STORAGE_KEY = 'SE2026_RESPONSES';
         
         // --- TEMPEL URL DARI GOOGLE APPS SCRIPT DI SINI ---
         // PASTIKAN URL BERAKHIRAN /exec
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwlrqFm4kFjt5vLMkQVSC7TCvNI2sIJbXfPZFxa5ULzdRIFYO74ql1n0b2RQZBHMwGD/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVdECjz1qxibTYJD4j-G3Ep6T_iHHuvk7OvFCdOeQG0_Fw80zRXw4x1-y5AkU8GO-l/exec';
 
         // DARK MODE LOGIC
         const themeToggleIcon = document.getElementById('theme-toggle-icon');
@@ -827,9 +827,34 @@
                 dataObj[key] = value;
             });
 
+            // BERIKAN ID UNIK UNTUK DATABASE MENGHAPUS & TIMESTAMP
+            dataObj.id = 'SE-' + Date.now();
             dataObj.timestamp = new Date().toLocaleString('id-ID');
             
-            // --- TAMBAHAN: Efek Loading pada Tombol ---
+            // --- FITUR BARU: MENGGABUNGKAN NILAI NOMINAL DENGAN SATUAN ---
+            const mergePairs = {
+                'luas_tanah_bangunan': 'satuan_luas_tanah',
+                'luas_luar_rumah': 'satuan_luas_luar',
+                'biaya_honorer': 'periode_honorer',
+                'biaya_produksi': 'periode_produksi',
+                'biaya_operasional': 'periode_operasional',
+                'biaya_non_operasional': 'periode_non_operasional',
+                'hasil_usaha': 'periode_hasil',
+                'luar_usaha': 'periode_luar_usaha',
+                'biaya_makan_rokok': 'periode_makan_rokok'
+            };
+
+            for (let key in mergePairs) {
+                let unitKey = mergePairs[key];
+                // Jika isiannya tidak kosong dan ada satuannya, kita gabungkan jadi 1 string
+                if (dataObj[key] && dataObj[unitKey]) {
+                    dataObj[key] = dataObj[key] + ' ' + dataObj[unitKey];
+                }
+                // Hapus key satuan dari dataObj agar tidak jadi kolom "Siluman" di excel/preview
+                delete dataObj[unitKey];
+            }
+            
+            // --- Efek Loading pada Tombol ---
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sedang Mengirim...`;
@@ -912,8 +937,14 @@
                             <p class="font-bold text-gray-800 dark:text-gray-100 text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">${data.nama_lengkap}</p>
                             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">${data.pekerjaan || 'Pekerjaan tidak diisi'}</p>
                         </div>
-                        <div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-400">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        <div class="flex gap-2">
+                            <!-- Tombol Hapus (Z-index dinaikkan & StopPropagation) -->
+                            <button onclick="askDelete(${actualIndex}, event)" class="bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-800 p-2 rounded-lg text-red-600 dark:text-red-400 transition-colors focus:outline-none" title="Hapus Data" type="button">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                            <div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-400 pointer-events-none">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </div>
                         </div>
                     </div>
                     <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-700 flex justify-between items-center text-xs text-gray-400 dark:text-gray-500">
@@ -923,6 +954,99 @@
                 `;
                 container.appendChild(card);
             });
+        }
+
+        // --- SISTEM HAPUS DATA ---
+        let deleteIndexTarget = null;
+        let deleteIdTarget = null;
+
+        function askDelete(index, event) {
+            // event.stopPropagation() agar saat kita klik tong sampah, dia gak mengira kita ngeklik card preview
+            event.stopPropagation();
+            
+            const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            const data = savedData[index];
+            if(!data) return;
+
+            deleteIndexTarget = index;
+            deleteIdTarget = data.id; // Menyimpan ID data untuk keperluan DB
+
+            const modal = document.getElementById('confirmModal');
+            const modalContent = document.getElementById('confirmContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            const modalContent = document.getElementById('confirmContent');
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Eksekusi ketika klik "Ya, Hapus"
+        document.getElementById('btnConfirmAction').addEventListener('click', function() {
+            if (deleteIndexTarget === null) return;
+            
+            const btn = this;
+            const originalText = btn.innerHTML;
+            // Animasi Loading
+            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Menghapus...`;
+            btn.disabled = true;
+
+            const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            
+            // Lakukan tembakan (Fetch) ke Server Google untuk Menghapus Baris Data
+            // (Hanya jalan jika data yg mau dihapus punya ID baru yg dibuat di atas)
+            if (deleteIdTarget) {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    redirect: 'follow',
+                    body: JSON.stringify({ action: 'delete', id: deleteIdTarget }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                })
+                .then(response => response.json())
+                .then(res => {
+                    if (res.result === 'success' || res.error === 'ID not found') {
+                        // Jika berhasil dari server, baru kita hapus juga di lokal
+                        eksekusiHapusLokal(savedData, originalText, btn, true);
+                    } else {
+                        throw new Error(res.error || 'Gagal menghapus dari Database');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    closeConfirmModal();
+                    showModal('Gagal Menghapus Database', `Pastikan koneksi internet bagus.<br><br>Sistem: ${err.message}`, false);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            } else {
+                // Untuk data lama yang tersimpan sblm update (belum punya ID), hapus secara lokal saja
+                eksekusiHapusLokal(savedData, originalText, btn, false);
+            }
+        });
+
+        function eksekusiHapusLokal(savedData, originalText, btn, isDatabaseDeleted) {
+            savedData.splice(deleteIndexTarget, 1);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+            renderSavedData();
+            closeConfirmModal();
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            if(isDatabaseDeleted) {
+                 showModal('Berhasil Dihapus', 'Data telah musnah dari perangkat ini dan Database Sensus.', true);
+            } else {
+                 showModal('Dihapus dari Perangkat', 'Data lama berhasil dihapus secara lokal.', true);
+            }
         }
 
         // VIEW NAVIGATION & HISTORY API (ANTI BACK/EXIT)
@@ -967,7 +1091,8 @@
             let htmlString = '';
 
             for (const [key, value] of Object.entries(data)) {
-                if (key === 'timestamp' || key === 'nama_lengkap') continue;
+                // Kita juga jangan tampilkan "id" di tampilan preview ini karena bentuk id-nya jelek cuma untuk dibaca mesin server
+                if (key === 'timestamp' || key === 'nama_lengkap' || key === 'id') continue;
 
                 const isCatatan = key === 'catatan_tambahan';
                 const colSpanClass = isCatatan ? 'col-span-1 md:col-span-2' : '';
