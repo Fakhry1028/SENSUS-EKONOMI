@@ -164,7 +164,8 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Email / Gmail</label>
-                        <input type="email" name="email" class="input-field" placeholder="contoh@gmail.com">
+                        <input type="email" name="email" class="input-field" placeholder="Kosongkan jika tidak ada">
+                        <p class="text-[11px] mt-1.5 italic text-blue-600 dark:text-blue-400">Opsional (Boleh dikosongkan)</p>
                     </div>
                 </div>
             </div>
@@ -263,21 +264,6 @@
                         <input type="text" inputmode="numeric" name="nilai_non_aset" class="input-field currency-input" placeholder="Rp">
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Perkiraan saja jika toko, sawah, lahan sewa, dll.. dijual</p>
                     </div>
-                    <div class="input-group">
-                        <label class="input-label light-label">Persentase Modal Usaha (%)</label>
-                        <input type="number" name="persentase_modal" class="input-field" placeholder="0 - 100">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label light-label">Asal Kepemilikan</label>
-                        <select name="asal_kepemilikan" class="input-field">
-                            <option value="">Pilih Asal Kepemilikan</option>
-                            <option value="Pribadi">Pribadi</option>
-                            <option value="Pinjaman">Pinjaman</option>
-                            <option value="Pemerintah">Pemerintah</option>
-                            <option value="Asing">Asing</option>
-                        </select>
-                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Pribadi, Pinjaman, Pemerintah, Asing,</p>
-                    </div>
                 </div>
             </div>
 
@@ -294,6 +280,21 @@
                     <div class="input-group">
                         <label class="input-label light-label">Nominal Pendapatan Per-Bulan (Rp)</label>
                         <input type="text" inputmode="numeric" name="nominal_per_bulan" class="input-field currency-input" placeholder="Contoh: 3.000.000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Persentase Modal Usaha (%)</label>
+                        <input type="number" name="persentase_modal" class="input-field" placeholder="0 - 100">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Asal Kepemilikan Modal</label>
+                        <select name="asal_kepemilikan" class="input-field">
+                            <option value="">Pilih Asal Kepemilikan</option>
+                            <option value="Pribadi">Pribadi</option>
+                            <option value="Pinjaman">Pinjaman</option>
+                            <option value="Pemerintah">Pemerintah</option>
+                            <option value="Asing">Asing</option>
+                        </select>
+                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Pribadi, Pinjaman, Pemerintah, Asing,</p>
                     </div>
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Rekening & Tujuan (Tabungan, KPR, dll)</label>
@@ -466,7 +467,7 @@
                             <option value="Dinas">Dinas</option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
-                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Milik Sendiri/Kontrak/Sewa/Sekeluarga/Dinas/Lainnya</p>
+                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Milik Sendiri/Kontrak/Sewa/Sekeluarga/Dinas/........</p>
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Sertifikat Tanah</label>
@@ -480,33 +481,75 @@
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">SHM/SHGB-SHSRS/Lainnya/tidak ada</p>
                     </div>
                     <div class="input-group">
-                        <label class="input-label light-label">Nilai Sewa</label>
+                        <label class="input-label light-label">Nilai Sewa (Jika disewakan)</label>
                         <input type="text" inputmode="numeric" name="nilai_sewa" class="input-field currency-input" placeholder="Rp ... / Bulan">
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Perkiraan saja jika bangunan ini disewakan</p>
                     </div>
                     
+                    <!-- FITUR BARU: JENIS & KONDISI MATERIAL (LANTAI, ATAP, TEMBOK) -->
                     <div class="input-group">
-                        <label class="input-label light-label">Kondisi Lantai</label>
-                        <select name="kondisi_lantai" class="input-field">
-                            <option value="">Pilih Kondisi</option>
-                            <option value="Baik">Baik</option>
-                            <option value="Rusak Ringan">Rusak Ringan</option>
-                            <option value="Sedang">Sedang</option>
-                            <option value="Berat">Berat</option>
-                        </select>
-                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Kondisi saat ini</p>
+                        <label class="input-label light-label">Lantai (Jenis & Kondisi)</label>
+                        <div class="flex flex-col gap-2">
+                            <select name="jenis_lantai" class="input-field">
+                                <option value="">Pilih Jenis Lantai</option>
+                                <option value="Keramik/Granit/Marmer">Keramik/Granit/Marmer</option>
+                                <option value="Ubin/Tegel">Ubin/Tegel</option>
+                                <option value="Semen/Plester">Semen/Plester</option>
+                                <option value="Kayu/Papan">Kayu/Papan</option>
+                                <option value="Bambu">Bambu</option>
+                                <option value="Tanah">Tanah</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <select name="kondisi_lantai" class="input-field">
+                                <option value="">Pilih Kondisi</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Rusak Ringan">Rusak Ringan</option>
+                                <option value="Sedang">Sedang</option>
+                                <option value="Berat">Berat</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="input-group">
-                        <label class="input-label light-label">Kondisi Atap</label>
-                        <select name="kondisi_atap" class="input-field">
-                            <option value="">Pilih Kondisi</option>
-                            <option value="Baik">Baik</option>
-                            <option value="Rusak Ringan">Rusak Ringan</option>
-                            <option value="Sedang">Sedang</option>
-                            <option value="Berat">Berat</option>
-                        </select>
-                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Kondisi saat ini</p>
+                        <label class="input-label light-label">Atap (Jenis & Kondisi)</label>
+                        <div class="flex flex-col gap-2">
+                            <select name="jenis_atap" class="input-field">
+                                <option value="">Pilih Jenis Atap</option>
+                                <option value="Genteng">Genteng</option>
+                                <option value="Seng/Asbes">Seng/Asbes</option>
+                                <option value="Cor/Dak Beton">Cor/Dak Beton</option>
+                                <option value="Kayu/Sirap">Kayu/Sirap</option>
+                                <option value="Bambu/Ijuk/Daun">Bambu/Ijuk/Daun</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <select name="kondisi_atap" class="input-field">
+                                <option value="">Pilih Kondisi</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Rusak Ringan">Rusak Ringan</option>
+                                <option value="Sedang">Sedang</option>
+                                <option value="Berat">Berat</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Tembok (Jenis & Kondisi)</label>
+                        <div class="flex flex-col gap-2">
+                            <select name="jenis_tembok" class="input-field">
+                                <option value="">Pilih Jenis Tembok</option>
+                                <option value="Tembok Bata/Semen">Tembok Bata/Semen</option>
+                                <option value="Kayu/Papan">Kayu/Papan</option>
+                                <option value="Bambu/Anyaman">Bambu/Anyaman</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <select name="kondisi_tembok" class="input-field">
+                                <option value="">Pilih Kondisi</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Rusak Ringan">Rusak Ringan</option>
+                                <option value="Sedang">Sedang</option>
+                                <option value="Berat">Berat</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="input-group">
                         <label class="input-label light-label">Toilet</label>
                         <select name="toilet" class="input-field">
@@ -642,6 +685,7 @@
             <!-- Submit Button & Buka Link -->
             <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8 mb-4">
                 <a href="https://docs.google.com/spreadsheets/d/1mfJ_7hWp7W2ApFLXwJ8urZuSTu67ctC66oyksxhRpuA/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-slate-900 dark:bg-slate-700 hover:bg-black dark:hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-lg">
+                    <!-- ICON MATA -->
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -742,7 +786,7 @@
         
         // --- TEMPEL URL DARI GOOGLE APPS SCRIPT DI SINI ---
         // WAJIB Deploy sebagai Aplikasi Web -> Akses: Semua Orang (Anyone)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBKw4qLSzUD07m32PwtOE5syf6dZW9C-7UZeGcS68Bo3HSDdQWEgKQzQ0uGxr2yBxG/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9X_MeGmeq76QjsvTx9A_tnhyCsTfKfwKqHT_u4Y9mEc7M7pzqcEj8O3ZmgEnpFACt/exec';
 
         // DARK MODE LOGIC
         const themeToggleIcon = document.getElementById('theme-toggle-icon');
@@ -810,7 +854,9 @@
             
             for(let input of allInputs) {
                 if (input.closest('.form-section') && input.closest('.form-section').classList.contains('hidden')) continue;
-                if (input.name === 'catatan_tambahan' || input.name === 'jenis_usaha_keluarga') continue;
+                
+                // MENGABAIKAN VALIDASI UNTUK EMAIL, CATATAN TAMBAHAN, DAN JENIS USAHA
+                if (input.name === 'catatan_tambahan' || input.name === 'jenis_usaha_keluarga' || input.name === 'email') continue;
 
                 if (input.type === 'radio') {
                     const name = input.name;
