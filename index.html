@@ -1064,7 +1064,7 @@
             })
             .catch(error => {
                 console.error('Error Sync:', error);
-                showModal('Gagal Mengirim ke Database', `<b>Penyebab:</b> ${error.message}`, false);
+                showModal('Gagal Tersimpan di Server', `<b>Penyebab:</b> ${error.message}`, false);
             })
             .finally(() => {
                 btn.innerHTML = originalHtml;
