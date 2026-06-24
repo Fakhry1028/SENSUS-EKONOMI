@@ -159,7 +159,8 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Nama Lengkap *</label>
-                        <input type="text" name="NAMA LENGKAP" id="NAMA LENGKAP" class="input-field" placeholder="Masukkan nama lengkap">
+                        <!-- PENTING: name dan id wajib "nama_lengkap", huruf kecil pakai underscore agar JS jalan -->
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" class="input-field" placeholder="Masukkan nama lengkap">
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">No. WhatsApp</label>
@@ -801,7 +802,7 @@
         
         // --- TEMPEL URL DARI GOOGLE APPS SCRIPT DI SINI ---
         // WAJIB Deploy sebagai Aplikasi Web -> Akses: Semua Orang (Anyone)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuwiJnONBWYh5lWvxt0G30axGxJl9W55T-u7XMtmuC78JJKhZ6fwAkXrjAnmvtvkH2/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9X_MeGmeq76QjsvTx9A_tnhyCsTfKfwKqHT_u4Y9mEc7M7pzqcEj8O3ZmgEnpFACt/exec';
 
         // DARK MODE LOGIC
         const themeToggleIcon = document.getElementById('theme-toggle-icon');
