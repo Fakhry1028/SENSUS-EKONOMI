@@ -159,7 +159,6 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label light-label">Nama Lengkap *</label>
-                        <!-- PENTING: name dan id wajib "nama_lengkap", huruf kecil pakai underscore agar JS jalan -->
                         <input type="text" name="nama_lengkap" id="nama_lengkap" class="input-field" placeholder="Masukkan nama lengkap">
                     </div>
                     <div class="input-group">
@@ -203,48 +202,60 @@
                     <div class="input-group md:col-span-2">
                         <label class="input-label light-label">Jenis Usaha Keluarga (jika ada)</label>
                         <input type="text" name="jenis_usaha_keluarga" id="input_jenis_usaha" class="input-field bg-blue-50/50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800" placeholder="Ketik jenis usaha di sini untuk memunculkan form Usaha (Kosongi jika tidak ada)">
-                        <p class="text-[11px] mt-1.5 italic text-blue-600 dark:text-blue-400 font-medium">Jika diisi, Menu 5, 6, dan 7 akan otomatis muncul.</p>
+                        <p class="text-[11px] mt-1.5 italic text-blue-600 dark:text-blue-400 font-medium">Jika diisi, Menu 6, 7, dan 8 akan otomatis muncul.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. Status Keluarga -->
-            <div class="form-section group">
+            <!-- 3. Status Keluarga (Dinamis) -->
+            <div class="form-section group" id="section-status-keluarga">
                 <h2 class="section-title light-title">
                     <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">3</span> Status Keluarga
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                
+                <!-- Container untuk menampung input anggota yang terus bertambah -->
+                <div id="anggota-container" class="space-y-6">
+                    <!-- Anggota 1 akan dimuat lewat JavaScript -->
+                </div>
+
+                <!-- Tombol Tambah Anggota -->
+                <div class="mt-6 pt-4 border-t border-dashed border-gray-300 dark:border-slate-600">
+                    <button type="button" onclick="tambahAnggota()" class="w-full flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/50 text-indigo-600 dark:text-indigo-400 font-bold py-3 px-4 rounded-xl border border-indigo-200 dark:border-indigo-700/50 transition-colors shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Tambah Anggota Keluarga
+                    </button>
+                    <p class="text-center text-[11px] mt-2 italic text-gray-500 dark:text-gray-400">Klik tombol di atas untuk menambah form Anggota Keluarga lainnya.</p>
+                </div>
+            </div>
+
+            <!-- 4. Pendapatan Lainnya -->
+            <div class="form-section group">
+                <h2 class="section-title light-title">
+                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">4</span> Pendapatan atau Hasil Lainnya
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
                     <div class="input-group">
-                        <label class="input-label light-label">Pekerjaan Utama</label>
-                        <input type="text" name="pekerjaan" class="input-field" placeholder="Pekerjaan saat ini">
+                        <label class="input-label light-label">Jenis Pendapatan</label>
+                        <input type="text" name="jenis_pendapatan_lain" class="input-field" placeholder="Bantuan, Pensiun, dll">
+                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Isi strip (-) jika tidak ada</p>
                     </div>
                     <div class="input-group">
-                        <label class="input-label light-label">Status Pekerjaan</label>
-                        <input type="text" name="status_pekerjaan" class="input-field" placeholder="Tetap / Kontrak / Honorer dll">
+                        <label class="input-label light-label">Asal Pendapatan</label>
+                        <input type="text" name="asal_pendapatan_lain" class="input-field" placeholder="Pemerintah, Anak, dll">
+                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Isi strip (-) jika tidak ada</p>
                     </div>
                     <div class="input-group">
-                        <label class="input-label light-label">Pendidikan Terakhir</label>
-                        <input type="text" name="pendidikan" class="input-field" placeholder="SD / SMP / SMA / S1 dll">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label light-label">PROVINSI</label>
-                        <input type="text" name="tempat_bekerja" class="input-field" placeholder="Jawa Tengah">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label light-label">KABUPATEN / KOTA</label>
-                        <input type="text" name="keberadaan" class="input-field" placeholder="Kebumen">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label light-label">Penyakit Kronis</label>
-                        <input type="text" name="penyakit_kronis" class="input-field" placeholder="Kosongkan jika tidak ada (isi strip -)">
+                        <label class="input-label light-label">Nominal Per Bulan (Rp)</label>
+                        <input type="text" inputmode="numeric" name="nominal_pendapatan_lain" class="input-field currency-input" placeholder="Rp">
+                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Isi 0 jika tidak ada</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 4. Aset Bangunan -->
+            <!-- 5. Aset Bangunan -->
             <div class="form-section group">
                 <h2 class="section-title light-title">
-                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">4</span> Aset Bangunan & Tanah
+                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">5</span> Aset Bangunan & Tanah
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div class="input-group">
@@ -283,10 +294,10 @@
                 </div>
             </div>
 
-            <!-- 5. Usaha / Pendapatan (HIDDEN BY DEFAULT) -->
+            <!-- 6. Usaha / Pendapatan (HIDDEN BY DEFAULT) -->
             <div id="section-usaha" class="form-section group hidden">
                 <h2 class="section-title light-title">
-                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">5</span> Usaha / Pendapatan
+                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">6</span> Usaha / Pendapatan
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div class="input-group">
@@ -319,10 +330,10 @@
                 </div>
             </div>
 
-            <!-- 6. Identitas Usaha (HIDDEN BY DEFAULT) -->
+            <!-- 7. Identitas Usaha (HIDDEN BY DEFAULT) -->
             <div id="section-identitas-usaha" class="form-section group hidden">
                 <h2 class="section-title light-title">
-                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">6</span> Identitas Usaha (Jika Ada)
+                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">7</span> Identitas Usaha (Jika Ada)
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div class="input-group">
@@ -372,10 +383,10 @@
                 </div>
             </div>
 
-            <!-- 7. Pengeluaran & Pendapatan Usaha Tahunan (HIDDEN BY DEFAULT) -->
+            <!-- 8. Pengeluaran & Pendapatan Usaha Tahunan (HIDDEN BY DEFAULT) -->
             <div id="section-keuangan-usaha" class="form-section group hidden">
                 <h2 class="section-title light-title">
-                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">7</span> Keuangan Usaha
+                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">8</span> Keuangan Usaha
                 </h2>
                 
                 <h3 class="font-semibold text-indigo-700 dark:text-indigo-300 mt-4 mb-3 border-l-4 border-indigo-500 pl-2">Pengeluaran Usaha</h3>
@@ -466,10 +477,10 @@
                 </div>
             </div>
 
-            <!-- 8. Ekonomi & Fasilitas -->
+            <!-- 9. Ekonomi & Fasilitas -->
             <div class="form-section group">
                 <h2 class="section-title light-title">
-                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">8</span> Ekonomi & Kondisi Tempat Tinggal
+                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">9</span> Ekonomi & Kondisi Tempat Tinggal
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
                     <div class="input-group">
@@ -502,7 +513,6 @@
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Perkiraan saja jika bangunan ini disewakan</p>
                     </div>
                     
-                    <!-- FITUR BARU: JENIS & KONDISI MATERIAL (LANTAI, ATAP, TEMBOK) -->
                     <div class="input-group">
                         <label class="input-label light-label">Lantai (Jenis & Kondisi)</label>
                         <div class="flex flex-col gap-2">
@@ -631,10 +641,10 @@
                 </div>
             </div>
 
-            <!-- 9. Aset Pribadi -->
+            <!-- 10. Aset Pribadi -->
             <div class="form-section group">
                 <h2 class="section-title light-title">
-                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">9</span> Aset Pribadi
+                    <span class="bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded p-1">10</span> Aset Pribadi
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
                     <div class="input-group">
@@ -690,10 +700,20 @@
                         <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">jika dijual per-2025</p>
                     </div>
 
-                    <!-- FITUR BARU: Kolom Catatan Tambahan (Bisa Kosong) -->
+                    <!-- Kolom Catatan Tambahan (Bisa Kosong) -->
                     <div class="input-group col-span-1 sm:col-span-2 md:col-span-4 mt-4">
                         <label class="input-label light-label text-indigo-600 dark:text-indigo-400 font-bold text-lg">Catatan Tambahan (Bila Ada)</label>
                         <textarea name="catatan_tambahan" class="input-field bg-yellow-50/70 dark:bg-slate-800/80 border-yellow-200 dark:border-slate-600" rows="5" placeholder="Tuliskan keterangan tambahan, rincian detail aset yang tidak muat, atau info penting lainnya di sini..."></textarea>
+                    </div>
+                    
+                    <!-- FITUR BARU: Bangunan Keluarga & No. Keluarga -->
+                    <div class="input-group md:col-span-2 mt-2">
+                        <label class="input-label light-label">Bangunan Keluarga</label>
+                        <input type="text" name="bangunan_keluarga" class="input-field border-blue-300 dark:border-blue-700" placeholder="Keterangan Bangunan Keluarga">
+                    </div>
+                    <div class="input-group md:col-span-2 mt-2">
+                        <label class="input-label light-label">No. Keluarga</label>
+                        <input type="number" name="no_keluarga" class="input-field border-blue-300 dark:border-blue-700" placeholder="Masukkan Nomor Keluarga">
                     </div>
                 </div>
             </div>
@@ -802,7 +822,7 @@
         
         // --- TEMPEL URL DARI GOOGLE APPS SCRIPT DI SINI ---
         // WAJIB Deploy sebagai Aplikasi Web -> Akses: Semua Orang (Anyone)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9X_MeGmeq76QjsvTx9A_tnhyCsTfKfwKqHT_u4Y9mEc7M7pzqcEj8O3ZmgEnpFACt/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqVETa6cV6uqkNnzlgrK4wAXV3uIVQL9COA0yV8ZpczCu7YQ1noAmDjr3RVH-Bg20/exec';
 
         // DARK MODE LOGIC
         const themeToggleIcon = document.getElementById('theme-toggle-icon');
@@ -839,6 +859,117 @@
             }
         });
 
+        // LOGIKA DINAMIS STATUS KELUARGA (TAMBAH ANGGOTA)
+        let anggotaCount = 0;
+
+        function tambahAnggota() {
+            anggotaCount++;
+            const id = anggotaCount;
+            const container = document.getElementById('anggota-container');
+            const div = document.createElement('div');
+            div.id = `anggota-${id}`;
+            div.className = 'p-5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800/50 relative transform transition-all duration-300';
+            
+            div.innerHTML = `
+                <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-200 dark:border-slate-700">
+                    <h3 class="font-bold text-lg text-indigo-700 dark:text-indigo-400">Anggota ${id}</h3>
+                    ${id > 1 ? `<button type="button" onclick="hapusAnggota(${id})" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/50 px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg> Hapus</button>` : ''}
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                    <div class="input-group">
+                        <label class="input-label light-label">Nama Anggota *</label>
+                        <input type="text" name="anggota_${id}_nama" class="input-field" placeholder="Nama lengkap">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Pekerjaan Utama</label>
+                        <input type="text" name="anggota_${id}_pekerjaan" class="input-field" placeholder="Ketik Manual (Mis: Petani, Guru)">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Status Pekerjaan</label>
+                        <input type="text" name="anggota_${id}_status_pekerjaan" class="input-field" placeholder="Ketik Manual (Tetap/Kontrak/Honorer/dll)">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Pendidikan Terakhir</label>
+                        <select name="anggota_${id}_pendidikan" class="input-field">
+                            <option value="">Pilih Pendidikan</option>
+                            <option value="Tidak/Belum Sekolah">Tidak/Belum Sekolah</option>
+                            <option value="SD/Sederajat">SD/Sederajat</option>
+                            <option value="SMP/Sederajat">SMP/Sederajat</option>
+                            <option value="SMA/SMK/Sederajat">SMA/SMK/Sederajat</option>
+                            <option value="D1/D2/D3">D1/D2/D3</option>
+                            <option value="S1/D4">S1/D4</option>
+                            <option value="S2">S2</option>
+                            <option value="S3">S3</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">PROVINSI</label>
+                        <select name="anggota_${id}_provinsi" class="input-field">
+                            <option value="">Pilih Provinsi</option>
+                            <option value="Nanggroe Aceh Darussalam">Nanggroe Aceh Darussalam</option>
+                            <option value="Sumatera Utara">Sumatera Utara</option>
+                            <option value="Sumatera Selatan">Sumatera Selatan</option>
+                            <option value="Sumatera Barat">Sumatera Barat</option>
+                            <option value="Bengkulu">Bengkulu</option>
+                            <option value="Riau">Riau</option>
+                            <option value="Kepulauan Riau">Kepulauan Riau</option>
+                            <option value="Jambi">Jambi</option>
+                            <option value="Lampung">Lampung</option>
+                            <option value="Bangka Belitung">Bangka Belitung</option>
+                            <option value="Kalimantan Barat">Kalimantan Barat</option>
+                            <option value="Kalimantan Timur">Kalimantan Timur</option>
+                            <option value="Kalimantan Selatan">Kalimantan Selatan</option>
+                            <option value="Kalimantan Tengah">Kalimantan Tengah</option>
+                            <option value="Kalimantan Utara">Kalimantan Utara</option>
+                            <option value="Banten">Banten</option>
+                            <option value="DKI Jakarta">DKI Jakarta</option>
+                            <option value="Jawa Barat">Jawa Barat</option>
+                            <option value="Jawa Tengah">Jawa Tengah</option>
+                            <option value="DI Yogyakarta">DI Yogyakarta</option>
+                            <option value="Jawa Timur">Jawa Timur</option>
+                            <option value="Bali">Bali</option>
+                            <option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
+                            <option value="Nusa Tenggara Barat">Nusa Tenggara Barat</option>
+                            <option value="Gorontalo">Gorontalo</option>
+                            <option value="Sulawesi Barat">Sulawesi Barat</option>
+                            <option value="Sulawesi Tengah">Sulawesi Tengah</option>
+                            <option value="Sulawesi Utara">Sulawesi Utara</option>
+                            <option value="Sulawesi Tenggara">Sulawesi Tenggara</option>
+                            <option value="Sulawesi Selatan">Sulawesi Selatan</option>
+                            <option value="Maluku Utara">Maluku Utara</option>
+                            <option value="Maluku">Maluku</option>
+                            <option value="Papua Barat">Papua Barat</option>
+                            <option value="Papua">Papua</option>
+                            <option value="Papua Tengah">Papua Tengah</option>
+                            <option value="Papua Pegunungan">Papua Pegunungan</option>
+                            <option value="Papua Selatan">Papua Selatan</option>
+                            <option value="Papua Barat Daya">Papua Barat Daya</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">KABUPATEN / KOTA</label>
+                        <input type="text" name="anggota_${id}_kabupaten" class="input-field" placeholder="Ketik Manual Nama Kabupaten/Kota">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Keberadaan Saat Ini</label>
+                        <input type="text" name="anggota_${id}_keberadaan" class="input-field" placeholder="Di rumah / Merantau dll">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label light-label">Penyakit Kronis</label>
+                        <input type="text" name="anggota_${id}_penyakit_kronis" class="input-field" placeholder="Kosongkan jika tidak ada (isi strip -)">
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function hapusAnggota(id) {
+            const el = document.getElementById(`anggota-${id}`);
+            if(el) {
+                el.remove();
+            }
+        }
+
         // LOGIKA PENAMPILAN SECTION USAHA OTOMATIS
         const inputUsaha = document.getElementById('input_jenis_usaha');
         const sectionUsaha = document.getElementById('section-usaha');
@@ -857,7 +988,10 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', renderSavedData);
+        document.addEventListener('DOMContentLoaded', () => {
+            tambahAnggota(); // Menambahkan anggota pertama saat web dimuat
+            renderSavedData();
+        });
 
         // Menangani pengiriman formulir dengan Validasi
         document.getElementById('se2026Form').addEventListener('submit', function(e) {
@@ -976,6 +1110,11 @@
                 sectionUsaha.classList.add('hidden');
                 sectionIdUsaha.classList.add('hidden');
                 sectionKeuangan.classList.add('hidden');
+                
+                // Reset Anggota dinamis ke 1 anggota saja
+                document.getElementById('anggota-container').innerHTML = '';
+                anggotaCount = 0;
+                tambahAnggota();
                 
                 setTimeout(() => {
                     closeModal();
