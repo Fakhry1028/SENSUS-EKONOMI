@@ -714,6 +714,7 @@
                     <div class="input-group md:col-span-2 mt-2">
                         <label class="input-label light-label">No. Keluarga</label>
                         <input type="number" name="no_keluarga" class="input-field border-blue-300 dark:border-blue-700 font-bold text-blue-800" placeholder="Masukkan Nomor Keluarga">
+                        <p class="text-[11px] mt-1.5 italic text-red-600 dark:text-red-400">Angka tidak boleh duplikat (sudah dipakai)</p>
                     </div>
                 </div>
             </div>
@@ -724,14 +725,12 @@
                     <span class="text-blue-700 dark:text-blue-400 font-extrabold text-2xl mr-1">11.</span> Dokumentasi Foto
                 </h2>
                 <p class="text-sm mb-5 text-gray-500 dark:text-gray-400 bg-yellow-50 dark:bg-slate-800 p-3 rounded-lg border border-yellow-200 dark:border-slate-600">
-                    📸 <span class="font-semibold text-yellow-700 dark:text-yellow-500">Info:</span> Foto <b>TIDAK</b> dikirim ke database untuk menghemat kuota. Foto hanya tersimpan di <b>Arsip Perangkat (HP) ini</b>.
+                    📸 <span class="font-semibold text-yellow-700 dark:text-yellow-500">Info:</span> Foto akan <b>dikompres otomatis</b> dan HANYA tersimpan di Arsip perangkat (HP) ini. (Boleh dilewati).
                 </p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                    <!-- FOTO RUANG TAMU -->
                     <div class="input-group border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-xl p-4 text-center hover:bg-gray-50 dark:hover:bg-slate-800 transition">
                         <label class="input-label light-label text-base mb-3">Foto Ruang Tamu</label>
-                        
                         <div class="flex gap-3 justify-center">
                             <!-- Input & Tombol Kamera -->
                             <input type="file" accept="image/*" capture="environment" id="input_rt_kamera" class="sr-only">
@@ -739,7 +738,6 @@
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 <span class="text-sm">Kamera</span>
                             </button>
-                            
                             <!-- Input & Tombol Galeri -->
                             <input type="file" accept="image/*" id="input_rt_galeri" class="sr-only">
                             <button type="button" onclick="document.getElementById('input_rt_galeri').click()" class="flex-1 max-w-[150px] cursor-pointer inline-flex flex-col items-center justify-center gap-1 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/40 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-400 px-3 py-3 rounded-lg font-semibold transition focus:outline-none">
@@ -750,10 +748,8 @@
                         <img id="preview_foto_ruang_tamu" class="hidden mt-4 max-h-48 mx-auto rounded-lg border border-gray-300 object-contain shadow-sm">
                     </div>
                     
-                    <!-- FOTO DEPAN RUMAH -->
                     <div class="input-group border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-xl p-4 text-center hover:bg-gray-50 dark:hover:bg-slate-800 transition">
                         <label class="input-label light-label text-base mb-3">Foto Depan Rumah</label>
-                        
                         <div class="flex gap-3 justify-center">
                             <!-- Input & Tombol Kamera -->
                             <input type="file" accept="image/*" capture="environment" id="input_dr_kamera" class="sr-only">
@@ -761,7 +757,6 @@
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 <span class="text-sm">Kamera</span>
                             </button>
-                            
                             <!-- Input & Tombol Galeri -->
                             <input type="file" accept="image/*" id="input_dr_galeri" class="sr-only">
                             <button type="button" onclick="document.getElementById('input_dr_galeri').click()" class="flex-1 max-w-[150px] cursor-pointer inline-flex flex-col items-center justify-center gap-1 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/40 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-400 px-3 py-3 rounded-lg font-semibold transition focus:outline-none">
@@ -774,23 +769,56 @@
                 </div>
             </div>
 
-            <!-- Submit Button (Kirim ke Database) -->
+            <!-- Submit Button & Buka Link -->
             <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8 mb-4">
-                <button type="submit" class="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-10 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-lg">
-                    Kirim Data ke Database
+                <a href="https://docs.google.com/spreadsheets/d/1mfJ_7hWp7W2ApFLXwJ8urZuSTu67ctC66oyksxhRpuA/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-slate-900 dark:bg-slate-700 hover:bg-black dark:hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-lg">
+                    <!-- ICON MATA -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    Buka Link
+                </a>
+                <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-10 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-lg">
+                    Simpan Data ke HP (Lokal)
                 </button>
             </div>
         </form>
 
-        <!-- Saved Data Section (HANYA ARSIP FOTO LOKAL) -->
+        <!-- Saved Data Section (ARSIP) -->
         <div id="arsip-section" class="mt-16 mb-8 scroll-mt-24">
             <div class="flex items-center gap-3 mb-6">
-                <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Arsip Foto Tersimpan (Lokal)</h2>
+                <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Arsip Data Tersimpan</h2>
             </div>
             
             <div id="savedDataList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Foto akan dimuat di sini -->
+                <!-- Data will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PREVIEW VIEW (Full Data Sheet) -->
+    <div id="previewView" class="hidden max-w-4xl mx-auto pt-12 pb-12 px-4 sm:px-6 lg:px-8 transition-opacity duration-300">
+        <div class="mb-6 flex justify-between items-center">
+            <button onclick="showMainView()" class="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors bg-white dark:bg-slate-800 px-4 py-2 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 hover:shadow-md">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Kembali ke Form
+            </button>
+            <span class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 text-sm font-semibold rounded-full border border-green-200 dark:border-green-800">
+                Mode Preview
+            </span>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white text-center">
+                <h2 class="text-2xl font-bold">Rincian Data Sensus 2026</h2>
+                <p id="previewName" class="text-blue-100 mt-1 font-medium text-lg"></p>
+                <p id="previewTime" class="text-xs text-blue-200 mt-2 opacity-80"></p>
+            </div>
+            
+            <div id="previewContent" class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Content gets dynamically generated here -->
             </div>
         </div>
     </div>
@@ -815,7 +843,7 @@
         </div>
     </div>
 
-    <!-- MODAL KONFIRMASI HAPUS FOTO -->
+    <!-- MODAL KONFIRMASI HAPUS -->
     <div id="confirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[110] hidden opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300 border border-gray-100 dark:border-slate-700" id="confirmContent">
             <div class="text-center">
@@ -824,9 +852,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl leading-6 font-bold text-gray-900 dark:text-white">Hapus Arsip Foto?</h3>
+                <h3 class="text-xl leading-6 font-bold text-gray-900 dark:text-white">Konfirmasi Hapus</h3>
                 <div class="mt-3">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Apakah Anda yakin ingin menghapus foto orang ini secara permanen dari perangkat ini?</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Apakah Anda yakin ingin menghapus data ini secara permanen dari perangkat ini?</p>
                 </div>
                 <div class="mt-6 flex gap-3 justify-center">
                     <button type="button" onclick="closeConfirmModal()" class="w-full justify-center rounded-xl border border-gray-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-700 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none sm:text-sm">
@@ -841,10 +869,8 @@
     </div>
 
     <script>
-        // MASUKKAN LINK SCRIPT GOOGLE APPS ANDA DI SINI
-        const scriptURL = 'MASUKKAN_LINK_GOOGLE_APPS_SCRIPT_ANDA_DISINI';
-        const STORAGE_KEY = 'SE2026_PHOTOS'; // Key Local Storage KHUSUS FOTO
-
+        const STORAGE_KEY = 'SE2026_RESPONSES';
+        
         // DARK MODE LOGIC
         const themeToggleIcon = document.getElementById('theme-toggle-icon');
         let currentRotation = 0;
@@ -1014,7 +1040,6 @@
         let fotoDepanRumahB64 = '';
 
         function handleImageUpload(inputIdKamera, inputIdGaleri, previewId, isRuangTamu) {
-            
             const processFile = function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -1044,7 +1069,7 @@
                         document.getElementById(previewId).src = compressedB64;
                         document.getElementById(previewId).classList.remove('hidden');
                         
-                        // --- SIMPAN OTOMATIS KE LOCAL STORAGE (DRAFT) ---
+                        // --- SIMPAN OTOMATIS KE LOCAL STORAGE SEBAGAI DRAFT ---
                         if(isRuangTamu) {
                             fotoRuangTamuB64 = compressedB64;
                             localStorage.setItem('draft_foto_rt', compressedB64);
@@ -1060,14 +1085,13 @@
             document.getElementById(inputIdGaleri).addEventListener('change', processFile);
         }
 
-        // Pasang event handler untuk masing-masing sepasang tombol input (Ruang Tamu & Depan Rumah)
         handleImageUpload('input_rt_kamera', 'input_rt_galeri', 'preview_foto_ruang_tamu', true);
         handleImageUpload('input_dr_kamera', 'input_dr_galeri', 'preview_foto_depan_rumah', false);
 
 
         document.addEventListener('DOMContentLoaded', () => {
             tambahAnggota(); // Menambahkan anggota pertama saat web dimuat
-            renderSavedPhotos();
+            renderSavedData();
 
             // --- LOAD FOTO OTOMATIS JIKA ADA YANG TERSIMPAN DI LOCAL STORAGE ---
             const draftRT = localStorage.getItem('draft_foto_rt');
@@ -1084,17 +1108,21 @@
             }
         });
 
-        // Menangani pengiriman formulir (Teks ke DB, Foto ke Lokal)
+        // Menangani pengiriman formulir dengan Validasi
         document.getElementById('se2026Form').addEventListener('submit', function(e) {
             e.preventDefault();
 
             let isValid = true;
             const form = this;
+            
             const allInputs = form.querySelectorAll('input:not([type="hidden"]), select, textarea');
             
             for(let input of allInputs) {
+                // Abaikan input file (Kamera) & input di section tersembunyi
                 if (input.type === 'file') continue;
                 if (input.closest('.form-section') && input.closest('.form-section').classList.contains('hidden')) continue;
+                
+                // MENGABAIKAN VALIDASI UNTUK EMAIL, CATATAN TAMBAHAN, DAN JENIS USAHA
                 if (input.name === 'catatan_tambahan' || input.name === 'jenis_usaha_keluarga' || input.name === 'email') continue;
 
                 if (input.type === 'radio') {
@@ -1125,125 +1153,193 @@
 
             if (!isValid) return;
 
-            if (scriptURL === 'MASUKKAN_LINK_GOOGLE_APPS_SCRIPT_ANDA_DISINI' || scriptURL.trim() === '') {
-                showModal('Link Database Kosong', 'Harap masukkan link Google Apps Script Anda ke dalam variabel <b>scriptURL</b> pada kode Javascript sebelum menekan tombol kirim.', false);
-                return;
+            // SISTEM VALIDASI ANTI-DUPLIKAT UNTUK NO KELUARGA
+            const inputNoKeluarga = form.querySelector('input[name="no_keluarga"]');
+            const valNoKeluarga = inputNoKeluarga ? inputNoKeluarga.value.trim() : '';
+            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+            if (valNoKeluarga !== '') {
+                const isDuplicate = savedData.some(item => item.no_keluarga === valNoKeluarga);
+                if (isDuplicate) {
+                    inputNoKeluarga.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    inputNoKeluarga.focus();
+                    inputNoKeluarga.classList.add('border-red-500', 'ring-2', 'ring-red-200');
+                    setTimeout(() => inputNoKeluarga.classList.remove('border-red-500', 'ring-2', 'ring-red-200'), 2500);
+                    showModal('Data Duplikat!', `Maaf, <b>No. Keluarga ${valNoKeluarga}</b> sudah pernah diinput dan tersimpan sebelumnya.<br><br>Harap masukkan nomor yang berbeda untuk melanjutkan.`, false);
+                    return; // Hentikan Proses Simpan Data
+                }
             }
 
             const namaLengkap = document.getElementById('nama_lengkap').value.trim();
+            const formData = new FormData(this);
+            const localObj = {}; // Object Lengkap + Foto untuk Memori HP
+
+            formData.forEach((value, key) => {
+                localObj[key] = value;
+            });
+
             const genId = 'SE-' + Date.now();
             const genTime = new Date().toLocaleString('id-ID');
             
-            // 1. SIMPAN HANYA FOTO & IDENTITAS DASAR KE LOCAL STORAGE
-            if (fotoRuangTamuB64 || fotoDepanRumahB64) {
-                let savedPhotos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-                savedPhotos.push({
-                    id: genId,
-                    nama_lengkap: namaLengkap,
-                    timestamp: genTime,
-                    foto_ruang_tamu: fotoRuangTamuB64,
-                    foto_depan_rumah: fotoDepanRumahB64
-                });
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(savedPhotos));
-                renderSavedPhotos();
-            }
+            localObj.id = genId;
+            localObj.timestamp = genTime;
+            // Tempelkan foto di objek Local
+            localObj.foto_ruang_tamu = fotoRuangTamuB64;
+            localObj.foto_depan_rumah = fotoDepanRumahB64;
+            
+            const mergePairs = {
+                'luas_tanah_bangunan': 'satuan_luas_tanah',
+                'luas_luar_rumah': 'satuan_luas_luar',
+                'biaya_honorer': 'periode_honorer',
+                'biaya_produksi': 'periode_produksi',
+                'biaya_operasional': 'periode_operasional',
+                'biaya_non_operasional': 'periode_non_operasional',
+                'hasil_usaha': 'periode_hasil',
+                'luar_usaha': 'periode_luar_usaha',
+                'biaya_makan_rokok': 'periode_makan_rokok'
+            };
 
-            // 2. KIRIM DATA TEKS KE DATABASE
-            const formData = new FormData(form);
+            for (let key in mergePairs) {
+                let unitKey = mergePairs[key];
+                if (localObj[key] && localObj[unitKey]) {
+                    localObj[key] = localObj[key] + ' ' + localObj[unitKey];
+                }
+                delete localObj[unitKey];
+            }
+            
+            // SIMPAN KE LOKAL (HP) SAJA
+            savedData.push(localObj);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+            
+            renderSavedData();
+
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mengirim ke Database...`;
+            submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sedang Menyimpan...`;
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                    showModal('Sukses!', `Data teks <b>${namaLengkap}</b> berhasil dikirim ke Database.<br><br>Foto (jika ada) telah tersimpan di Arsip HP lokal.`, true);
-                    
-                    form.reset();
-                    sectionUsaha.classList.add('hidden');
-                    sectionIdUsaha.classList.add('hidden');
-                    sectionKeuangan.classList.add('hidden');
-                    
-                    document.getElementById('anggota-container').innerHTML = '';
-                    anggotaCount = 0;
-                    tambahAnggota();
+            setTimeout(() => {
+                showModal('Sukses!', `Data <b>${namaLengkap}</b> berhasil disimpan ke Penyimpanan Lokal (Offline).`, true);
+                
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
 
-                    fotoRuangTamuB64 = '';
-                    fotoDepanRumahB64 = '';
-                    document.getElementById('preview_foto_ruang_tamu').src = '';
-                    document.getElementById('preview_foto_ruang_tamu').classList.add('hidden');
-                    document.getElementById('preview_foto_depan_rumah').src = '';
-                    document.getElementById('preview_foto_depan_rumah').classList.add('hidden');
-                    
-                    localStorage.removeItem('draft_foto_rt');
-                    localStorage.removeItem('draft_foto_dr');
-                    
-                    setTimeout(() => {
-                        closeModal();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }, 3000);
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    showModal('Gagal Mengirim', 'Terjadi kesalahan saat mengirim data ke Database. Pastikan internet aktif dan URL Apps Script benar.', false);
-                })
-                .finally(() => {
-                    submitBtn.innerHTML = originalBtnText;
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
-                });
+                // RESET FORM & AUTO SCROLL KE ARSIP (Efek Refresh Layar)
+                form.reset();
+                sectionUsaha.classList.add('hidden');
+                sectionIdUsaha.classList.add('hidden');
+                sectionKeuangan.classList.add('hidden');
+                
+                // Reset Anggota dinamis ke 1 anggota saja
+                document.getElementById('anggota-container').innerHTML = '';
+                anggotaCount = 0;
+                tambahAnggota();
+
+                // Reset Foto
+                fotoRuangTamuB64 = '';
+                fotoDepanRumahB64 = '';
+                document.getElementById('preview_foto_ruang_tamu').src = '';
+                document.getElementById('preview_foto_ruang_tamu').classList.add('hidden');
+                document.getElementById('preview_foto_depan_rumah').src = '';
+                document.getElementById('preview_foto_depan_rumah').classList.add('hidden');
+                
+                // Hapus draft foto dari local storage
+                localStorage.removeItem('draft_foto_rt');
+                localStorage.removeItem('draft_foto_dr');
+
+                setTimeout(() => {
+                    closeModal();
+                    document.getElementById('arsip-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 2000);
+            }, 800);
         });
 
-        // RENDER KHUSUS ARSIP FOTO LOKAL
-        function renderSavedPhotos() {
+        function renderSavedData() {
             const container = document.getElementById('savedDataList');
-            let savedPhotos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-            if (savedPhotos.length === 0) {
-                container.innerHTML = '<div class="col-span-full p-8 text-center bg-white/50 dark:bg-slate-800/50 rounded-xl border border-dashed border-gray-300 dark:border-slate-600 text-gray-500 dark:text-gray-400">Belum ada foto yang tersimpan di perangkat ini.</div>';
+            if (savedData.length === 0) {
+                container.innerHTML = '<div class="col-span-full p-8 text-center bg-white/50 dark:bg-slate-800/50 rounded-xl border border-dashed border-gray-300 dark:border-slate-600 text-gray-500 dark:text-gray-400">Belum ada arsip data yang tersimpan di perangkat ini.</div>';
                 return;
             }
 
             container.innerHTML = '';
-            savedPhotos.slice().reverse().forEach((data, reversedIndex) => {
-                const actualIndex = savedPhotos.length - 1 - reversedIndex;
+            savedData.slice().reverse().forEach((data, reversedIndex) => {
+                const actualIndex = savedData.length - 1 - reversedIndex;
                 const card = document.createElement('div');
-                card.className = 'bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 transition-all duration-200 flex flex-col justify-between';
+                card.className = 'bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm hover:shadow-lg border border-gray-100 dark:border-slate-700 cursor-pointer transform hover:-translate-y-1 transition-all duration-200 group flex flex-col justify-between';
+                card.onclick = () => showPreviewView(actualIndex);
                 
                 card.innerHTML = `
                     <div>
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="font-bold text-gray-800 dark:text-gray-100 text-lg">${data.nama_lengkap}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Waktu: ${data.timestamp}</p>
+                                <p class="font-bold text-gray-800 dark:text-gray-100 text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">${data.nama_lengkap}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">${data.pekerjaan || 'Pekerjaan tidak diisi'}</p>
                             </div>
                         </div>
-                        <div class="mt-4 flex gap-3 overflow-x-auto pb-2">
-                            ${data.foto_ruang_tamu ? `<div class="relative"><span class="absolute top-1 left-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">R. Tamu</span><img src="${data.foto_ruang_tamu}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 dark:border-slate-600 shadow-sm"></div>` : ''}
-                            ${data.foto_depan_rumah ? `<div class="relative"><span class="absolute top-1 left-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">Depan</span><img src="${data.foto_depan_rumah}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 dark:border-slate-600 shadow-sm"></div>` : ''}
-                            ${!data.foto_ruang_tamu && !data.foto_depan_rumah ? `<p class="text-xs italic text-gray-400">Tidak ada foto diupload</p>` : ''}
+                        
+                        <!-- TAMPILAN NO BANGUNAN & KELUARGA -->
+                        <div class="mt-3 flex gap-2">
+                            <span class="px-2.5 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold rounded-md border border-indigo-100 dark:border-indigo-800">
+                                Bangunan : ${data.bangunan_keluarga || '-'}
+                            </span>
+                            <span class="px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold rounded-md border border-blue-100 dark:border-blue-800">
+                                Keluarga : ${data.no_keluarga || '-'}
+                            </span>
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-700 flex justify-end items-center">
-                        <button onclick="askDelete(${actualIndex}, event)" class="bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-800 px-3 py-1.5 rounded-lg text-red-600 dark:text-red-400 text-sm font-semibold transition-colors focus:outline-none flex items-center gap-2" type="button">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg> Hapus Foto
-                        </button>
+                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-700 flex justify-between items-center text-xs text-gray-400 dark:text-gray-500">
+                        <span class="font-medium">Tgl: ${data.timestamp ? data.timestamp.split(' ')[0] : '-'}</span>
+                        <div class="flex gap-2">
+                            <!-- TOMBOL HAPUS (SAMPAH) -->
+                            <button onclick="askDelete(${actualIndex}, event)" class="bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-800 p-2 rounded-lg text-red-600 dark:text-red-400 transition-colors focus:outline-none" title="Hapus Data" type="button">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                            <!-- TOMBOL DOWNLOAD (PANAH BAWAH) -->
+                            <button onclick="downloadData(${actualIndex}, event)" class="bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-800 p-2 rounded-lg text-blue-600 dark:text-blue-400 transition-colors focus:outline-none" title="Download Data" type="button">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            </button>
+                        </div>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // SISTEM HAPUS FOTO
+        // FUNGSI DOWNLOAD DATA LOKAL
+        function downloadData(index, event) {
+            event.stopPropagation(); // Mencegah kartu di klik
+            const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            const data = savedData[index];
+            if(!data) return;
+
+            let textContent = `DATA KUESIONER SE2026\n====================\n\n`;
+            for (const [key, value] of Object.entries(data)) {
+                if (key === 'id' || key === 'foto_ruang_tamu' || key === 'foto_depan_rumah') continue;
+                textContent += `${formatLabel(key)}: ${value || '-'}\n`;
+            }
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Data_SE2026_${data.nama_lengkap.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // SISTEM HAPUS DATA
         let deleteIndexTarget = null;
 
         function askDelete(index, event) {
             event.stopPropagation();
-            const savedPhotos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            const data = savedPhotos[index];
+            const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            const data = savedData[index];
             if(!data) return;
 
             deleteIndexTarget = index;
@@ -1275,15 +1371,17 @@
             btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Menghapus...`;
             btn.disabled = true;
 
-            const savedPhotos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            savedPhotos.splice(deleteIndexTarget, 1);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedPhotos));
+            const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
             
-            renderSavedPhotos();
+            savedData.splice(deleteIndexTarget, 1);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+            renderSavedData();
             closeConfirmModal();
             
             btn.innerHTML = originalText;
             btn.disabled = false;
+            
+            showModal('Berhasil Dihapus', 'Data telah dihapus dari arsip perangkat ini.', true);
         });
 
         // VIEW NAVIGATION
@@ -1294,6 +1392,79 @@
             previewView.classList.add('hidden');
             mainView.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            try {
+                history.replaceState(null, '', window.location.pathname);
+            } catch (e) {
+                window.location.hash = '';
+            }
+        }
+
+        window.addEventListener('popstate', (e) => {
+            if (location.hash !== '#preview') {
+                previewView.classList.add('hidden');
+                mainView.classList.remove('hidden');
+            }
+        });
+
+        function formatLabel(key) {
+            return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+
+        function showPreviewView(index) {
+            const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            const data = savedData[index];
+            if(!data) return;
+
+            const elPreviewName = document.getElementById('previewName');
+            const elPreviewTime = document.getElementById('previewTime');
+            const elPreviewContent = document.getElementById('previewContent');
+            
+            if(elPreviewName) elPreviewName.textContent = data.nama_lengkap;
+            if(elPreviewTime) elPreviewTime.textContent = `Waktu Input: ${data.timestamp}`;
+
+            let htmlString = '';
+            for (const [key, value] of Object.entries(data)) {
+                if (key === 'timestamp' || key === 'nama_lengkap' || key === 'id') continue;
+                
+                // Menampilkan Foto Jika Ada
+                if (key === 'foto_ruang_tamu' || key === 'foto_depan_rumah') {
+                    if(value) {
+                        htmlString += `
+                            <div class="col-span-1 md:col-span-2 p-4 rounded-xl border bg-gray-50/50 dark:bg-slate-700/30 border-gray-100 dark:border-slate-700 text-center">
+                                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">${formatLabel(key)}</p>
+                                <img src="${value}" class="max-h-64 mx-auto rounded-lg border border-gray-300 shadow-sm">
+                            </div>
+                        `;
+                    }
+                    continue;
+                }
+
+                const isCatatan = key === 'catatan_tambahan';
+                const colSpanClass = isCatatan ? 'col-span-1 md:col-span-2' : '';
+                const bgClass = isCatatan 
+                    ? 'bg-yellow-50/50 dark:bg-yellow-900/10 border-yellow-200 dark:border-yellow-900/30' 
+                    : 'bg-gray-50/50 dark:bg-slate-700/30 border-gray-100 dark:border-slate-700';
+
+                htmlString += `
+                    <div class="${colSpanClass} p-4 rounded-xl border ${bgClass}">
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">${formatLabel(key)}</p>
+                        <p class="text-sm md:text-base font-medium text-gray-900 dark:text-gray-100 break-words">${value || '<span class="text-gray-300 dark:text-gray-600 italic">-Kosong-</span>'}</p>
+                    </div>
+                `;
+            }
+
+            if(elPreviewContent) elPreviewContent.innerHTML = htmlString;
+
+            mainView.classList.add('hidden');
+            previewView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            try {
+                history.pushState({ view: 'preview' }, '', '#preview');
+            } catch (e) {
+                window.location.hash = 'preview';
+            }
         }
 
         // FUNGSI MODAL
